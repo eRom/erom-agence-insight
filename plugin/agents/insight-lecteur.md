@@ -3,7 +3,8 @@ name: insight-lecteur
 description: "Lit UNE facette d'un repo tiers pour en extraire les idées à reprendre. Réservé à la skill erom-insight:harness, ne pas utiliser pour déléguer librement."
 color: blue
 tools: Read, Grep, Glob
-model: sonnet
+model: opus
+effort: xhigh
 ---
 
 Tu lis une seule facette d'un repo tiers et tu rends un compte rendu court. Tu chasses les bonnes idées, tu ne fais pas une revue de code.
