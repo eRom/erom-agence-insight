@@ -19,5 +19,6 @@
     "rapport",
     "claude-code"
   ],
-  "skills": "./skills/"
+  "skills": "./skills/",
+  "agents": ["./agents/insight-lecteur.md", "./agents/insight-refutateur.md"]
 }

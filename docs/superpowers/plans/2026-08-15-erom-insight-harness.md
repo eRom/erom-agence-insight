@@ -15,7 +15,20 @@
 Ces contraintes valent pour toutes les tâches.
 
 - Nom du plugin dans le manifeste : `erom-insight`. Repo : `erom-agence-insight`. Tout le publiable vit sous `plugin/`.
-- Gate obligatoire en fin de chaque tâche : `claude plugin validate /Users/recarnot/dev/erom-agence-insight/plugin --strict` doit afficher `✔ Validation passed`.
+- Gate obligatoire en fin de chaque tâche, deux commandes, pas une :
+
+```bash
+RTK_DISABLED=1 command claude plugin validate /Users/recarnot/dev/erom-agence-insight/plugin --strict
+
+RTK_DISABLED=1 command find plugin -name '*.md' \( -path '*/agents/*' -o -name 'SKILL.md' \) -print0 \
+  | while IFS= read -r -d '' f; do
+      if RTK_DISABLED=1 command head -12 "$f" | RTK_DISABLED=1 command grep -q '^name:' \
+      && RTK_DISABLED=1 command head -12 "$f" | RTK_DISABLED=1 command grep -q '^description:'; then
+        echo "ok   $f"; else echo "KO   $f"; fi
+    done
+```
+
+La première doit afficher `✔ Validation passed`, la seconde ne doit afficher aucun `KO`. Les deux sont nécessaires : **vérifié le 2026-08-15, `claude plugin validate --strict` ne lit pas le frontmatter des agents ni des skills.** Un agent amputé de son champ `name` passe la validation sans un mot. La validation ne vérifie que la présence des fichiers déclarés dans le manifeste, pas leur contenu.
 - Jamais `rm`, `rmdir` ni `unlink`. Suppression par `trash` uniquement.
 - Aucun tiret cadratin dans aucun fichier. Un hook `guard-emdash` bloque tout Edit ou Write qui en contient, y compris dans le `old_string` recopié.
 - Rédaction en français.
@@ -219,7 +232,7 @@ Ajouter la clé `agents` à `plugin/.claude-plugin/plugin.json`, après `"skills
 RTK_DISABLED=1 command claude plugin validate /Users/recarnot/dev/erom-agence-insight/plugin --strict
 ```
 
-Attendu : `✔ Validation passed`. Si un agent est mal formé, la validation le signale par son chemin.
+Attendu : `✔ Validation passed`, puis aucun `KO` au second contrôle. Un chemin d'agent absent du disque est signalé par la validation (`agents[0]: Path not found`), mais un frontmatter invalide ne l'est pas : c'est le second contrôle qui l'attrape.
 
 - [ ] **Step 5 : Commit**
 
