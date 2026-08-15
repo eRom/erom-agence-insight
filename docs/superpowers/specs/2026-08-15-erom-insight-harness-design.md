@@ -116,6 +116,10 @@ Synthèse, jamais une concaténation des rapports de lecteurs. Structure imposé
 
 Puis `SendUserFile` en `display: "render"`, et gravure des conclusions durables en mémoire.
 
+### 7. Nettoyage (auto)
+
+Mode `remote` uniquement : `trash` du clone. Mode `local` : rien, ni suppression ni écriture dans le dossier cible.
+
 ## Contrats des agents
 
 ### `insight-lecteur`
