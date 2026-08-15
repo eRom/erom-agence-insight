@@ -35,7 +35,7 @@ Classé en trois tiers, plus une section de couverture et limites qui dit ce qui
 - **argent** : bonnes idées à parquer, dont les trouvailles retoquées avec leur preuve
 - **bronze** : leçons de design, rien à construire
 
-Il est écrit dans `~/.claude/erom-plugins/insights/<owner>-<repo>-<date>.md`, puis envoyé en pièce lisible sur mobile.
+Il est écrit dans `~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<date>.md`, puis envoyé en pièce lisible sur mobile.
 
 ## Composants
 

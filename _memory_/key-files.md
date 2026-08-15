@@ -27,7 +27,7 @@ Mise à jour : 2026-08-15
 
 ## Sorties, hors repo
 
-`~/.claude/erom-plugins/insights/<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports produits. Un exemplaire existe pour `deepseek-ai/deepseek-harness`.
+`~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports produits. Un exemplaire existe pour `deepseek-ai/deepseek-harness`.
 
 ## Contrat entre composants
 

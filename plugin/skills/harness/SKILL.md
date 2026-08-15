@@ -153,7 +153,7 @@ Charge `references/template-rapport.md` et suis-le.
 
 Synthétise, ne concatène pas. Le classement transversal est le travail attendu ; recopier les cinq comptes rendus à la suite est un échec.
 
-Écris dans `~/.claude/erom-plugins/insights/<owner>-<repo>-<YYYY-MM-DD>.md`. En mode `local` sans remote GitHub, `local-<nom-du-dossier>-<date>.md`. Si le fichier existe déjà pour aujourd'hui, suffixe `-2`, puis `-3`.
+Écris dans `~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<YYYY-MM-DD>.md`. En mode `local` sans remote GitHub, `local-<nom-du-dossier>-<date>.md`. Si le fichier existe déjà pour aujourd'hui, suffixe `-2`, puis `-3`.
 
 Récupère les champs de session :
 

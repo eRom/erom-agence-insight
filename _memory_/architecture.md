@@ -34,7 +34,7 @@ Sept temps, un seul arrêt utilisateur, placé juste avant la dépense :
 3. **arrêt** brief de 10 lignes, Romain valide ou corrige l'intention
 4. **swarm** N agents `insight-lecteur`, spawnés séquentiellement
 5. **réfutation** 1 agent `insight-refutateur` reçoit les seules affirmations de manque et doit les détruire
-6. **rapport** synthèse, écriture dans `~/.claude/erom-plugins/insights/`, `SendUserFile`
+6. **rapport** synthèse, écriture dans `~/.claude/erom-plugin-artefacts/insights/`, `SendUserFile`
 7. **nettoyage** `trash` du clone et du scratchpad
 
 ## Deux modes d'entrée
