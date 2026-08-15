@@ -84,7 +84,7 @@ Dans `plugin/.claude-plugin/plugin.json`, remplacer la description vide et le ta
 - [ ] **Step 3 : Créer la LICENSE**
 
 ```bash
-cp /Users/recarnot/dev/erom-agence-gemini/plugin/LICENSE /Users/recarnot/dev/erom-agence-insight/plugin/LICENSE
+cp /Users/recarnot/dev/erom-agence-deep-research/plugin/LICENSE /Users/recarnot/dev/erom-agence-insight/plugin/LICENSE
 ```
 
 Vérifier que l'année et le nom sont corrects, corriger si besoin.
