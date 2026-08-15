@@ -62,6 +62,14 @@ Puis, dans les deux modes, lis toi-même. Ne délègue pas cette étape : les pr
 - `AGENTS.md` ou `CLAUDE.md` s'ils existent, souvent la source la plus dense d'un harnais
 - l'index de la documentation, la liste des packages
 
+**Filtre les traductions dès le listage.** La règle vaut pour toi, pas seulement pour les lecteurs : un repo internationalisé porte deux ou trois variantes du même document, et sans filtre tu assignes le même contenu en double ou en triple.
+
+```bash
+ls docs/subsystems/*.md | RTK_DISABLED=1 command grep -v '\.zh\.md'
+```
+
+Adapte le motif à la langue rencontrée (`.zh.md`, `.ja.md`, `docs/zh/`, `*.i18n.yaml`).
+
 Charge `references/calibrage.md` et applique sa table : combien de lecteurs, quelles facettes, et quelle orientation si le repo n'a pas de `docs/`.
 
 Charge `references/facettes.md` pour les cinq axes et leur règle de disjonction.
@@ -83,6 +91,10 @@ Ne spawne rien avant sa réponse. Cet arrêt est placé juste avant la dépense,
 Un appel `Agent` par message, `subagent_type: insight-lecteur`. **Jamais deux dans le même bloc.**
 
 Ce n'est pas une préférence de style : un appel qui plante tue ses voisins du même batch. Chaque spawn retourne immédiatement, donc le séquencement ne coûte aucun temps réel. Ne l'optimise pas.
+
+**Ne donne pas de nom aux lecteurs.** Un agent nommé devient un teammate adressable, et son texte final ne remonte alors pas tout seul : il se signale disponible et son compte rendu reste chez lui jusqu'à ce que tu le lui redemandes. Les lecteurs sont des subagents one-shot, leur texte final est la valeur de retour. Ne passe pas de champ `name` au spawn.
+
+**Si une facette ne rend rien**, relance-la une fois. Si elle reste muette, elle passe en non couverte, et la section « couverture et limites » du rapport la nomme. Ne relance pas indéfiniment, et ne comble pas le trou en devinant.
 
 Gabarit du prompt d'appel, à remplir. Rien de plus : les règles permanentes sont dans la définition de l'agent, les répéter ne fait que diluer.
 
@@ -148,5 +160,7 @@ trash "<scratchpad>/insight-<owner>-<repo>"
 ```
 
 Jamais `rm`, `rmdir` ni `unlink`.
+
+Balaie ensuite le reste du scratchpad de la session. Le réfutateur a Bash et laisse ses propres fichiers de travail derrière lui : lors du rejeu de référence, 45 Mo d'extraction de chaînes du binaire. Vérifie ce qui traîne et envoie-le à la corbeille aussi.
 
 Mode `local` : ne supprime rien, n'écris rien dans le dossier cible. Il t'a été prêté en lecture.

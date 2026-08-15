@@ -14,6 +14,8 @@ Le nombre de lecteurs et l'orientation des facettes se décident à la reconnais
 
 Le plafond de 7 n'est pas arbitraire : au delà, les facettes se recouvrent mécaniquement et la synthèse devient une soupe où plus rien ne ressort.
 
+**Départage : c'est le volume de documentation qui décide, pas le nombre de packages.** Ce sont les documents qui sont lus. Un monorepo de 54 packages dont la documentation tient en 45 fichiers structurés se lit très bien à 5 lecteurs ; c'est le cas rencontré au rejeu de référence. Ne compte les packages que pour choisir l'orientation des chemins de départ, jamais pour fixer le nombre de lecteurs.
+
 ## Fusion des facettes
 
 Quand le repo ne porte pas assez de matière pour 5 lecteurs, fusionner dans cet ordre, qui regroupe les axes les plus proches :

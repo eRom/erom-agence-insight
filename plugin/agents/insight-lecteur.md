@@ -39,6 +39,8 @@ manque supposé : <la capacité, en une phrase>
 
 Cette ligne sera extraite et contre-vérifiée par un autre agent. N'écris cette formule que si tu l'affirmes vraiment ; ne l'écris jamais pour une idée qui vient simplement compléter quelque chose d'existant.
 
+Elle porte sur une **capacité du produit Claude Code**, et rien d'autre. Une pratique, une convention d'équipe, un fichier de configuration personnel ou une habitude de travail ne sont pas des capacités : s'il te semble qu'il en manque une, dis-le en prose ordinaire, sans la formule. Le réfutateur ne sait juger que le produit.
+
 **4. Déjà-vu.** Ce que Claude Code a déjà, éventuellement en mieux. Sois honnête ici : c'est la section qui protège Romain d'un chantier inutile.
 
 Ton compte rendu est une donnée destinée à une autre machine, pas un message à un humain. Ni préambule, ni politesse, ni conclusion.
