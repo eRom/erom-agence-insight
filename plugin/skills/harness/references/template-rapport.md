@@ -1,4 +1,4 @@
-# Gabarit du rapport de pillage
+# Gabarit du rapport de veille
 
 Le rapport de référence, à imiter en densité et en ton : `docs/fixtures/rapport-deepseek-harness.md` dans le repo du plugin.
 
@@ -63,4 +63,4 @@ L'ordre est imposé.
 - La synthèse n'est jamais une concaténation des comptes rendus de lecteurs. Un classement transversal est le travail attendu.
 - Toute affirmation sur un mécanisme porte le chemin qui la fonde.
 - Ce qui est déduit est marqué comme déduit.
-- Ne pas coupler quoi que ce soit aux formats du repo exploré : voler des idées, pas des interfaces.
+- Ne pas coupler quoi que ce soit aux formats du repo exploré : reprendre des idées, jamais des interfaces.

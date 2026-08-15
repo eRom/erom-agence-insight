@@ -1,10 +1,10 @@
 ---
 name: harness
-description: "Explore un repo GitHub TIERS qui est un harnais ou un agent CLI (dsh, opencode, crush, goose) et rend un rapport de pillage or/argent/bronze : ce qui vaut d'être volé pour la config Claude Code, ce qu'on a déjà, ce qui est du bruit. Accepte une URL ou un slug GitHub (clone puis trash) ou un chemin local (aucune écriture). Triggers : /erom-insight:harness <owner/repo|url|chemin>, 'pille ce repo', 'analyse ce harness', 'qu'est-ce qu'ils ont dans X'. Ne couvre PAS la retro du harnais local, qui est la skill harness-review."
+description: "Explore un repo GitHub TIERS qui est un harnais ou un agent CLI (dsh, opencode, crush, goose) et rend un rapport de veille or/argent/bronze : ce qui vaut d'être repris dans la config Claude Code, ce qu'on a déjà, ce qui est du bruit. Accepte une URL ou un slug GitHub (clone puis trash) ou un chemin local (aucune écriture). Triggers : /erom-insight:harness <owner/repo|url|chemin>, 'analyse ce harness', 'qu'est-ce qu'ils ont dans X', 'qu'est-ce qu'on peut reprendre de ce repo'. Ne couvre PAS la retro du harnais local, qui est la skill harness-review."
 argument-hint: "<owner/repo | url GitHub | chemin local>"
 ---
 
-Tu explores un repo tiers pour en rapporter ce qui mérite d'être volé. Sept temps, un seul arrêt.
+Tu explores un repo tiers pour en rapporter ce qui mérite d'être repris. Sept temps, un seul arrêt.
 
 Requête brute :
 $ARGUMENTS

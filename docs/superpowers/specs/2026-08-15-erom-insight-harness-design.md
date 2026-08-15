@@ -9,9 +9,9 @@ auteur: claude-janus-4gvc
 
 ## Objet
 
-Industrialiser l'exploration d'un repo de harness ou d'agent CLI (dsh, opencode, crush, goose) pour en extraire ce qui vaut la peine d'être volé dans la config Claude Code de Romain. Le livrable est un rapport classé or / argent / bronze, archivé et daté.
+Industrialiser l'exploration d'un repo de harness ou d'agent CLI (dsh, opencode, crush, goose) pour en extraire ce qui vaut la peine d'être repris dans la config Claude Code de Romain. Le livrable est un rapport classé or / argent / bronze, archivé et daté.
 
-Le découpage du plugin est par **nature de la cible**, pas par étape de pipeline. Un harness se lit sur ses mécaniques d'agent ; un éditeur comme Zed se lira sur d'autres axes, avec d'autres critères de pillage. `harness` est la première famille. Les suivantes viendront comme des skills sœurs.
+Le découpage du plugin est par **nature de la cible**, pas par étape de pipeline. Un harness se lit sur ses mécaniques d'agent ; un éditeur comme Zed se lira sur d'autres axes, avec d'autres critères de veille. `harness` est la première famille. Les suivantes viendront comme des skills sœurs.
 
 **Battu :** un découpage en trois skills chaînées (`scout` / `swarm` / `report`). Perdu parce que les trois descriptions se marcheraient dessus au déclenchement, et que l'état devrait transiter par un fichier entre skills alors qu'aucune n'est jamais jouée seule.
 
@@ -143,7 +143,7 @@ Règles permanentes, portées par l'agent et non répétées à chaque appel :
 - distinguer ce qui est **vu**, avec le chemin cité, de ce qui est **déduit**
 - ne pas déborder sur les facettes des autres lecteurs
 
-Livrable imposé, 600 mots maximum : 1. comment ça marche, 2. trouvailles notables avec chemins, 3. à voler, 4. déjà-vu.
+Livrable imposé, 600 mots maximum : 1. comment ça marche, 2. trouvailles notables avec chemins, 3. à reprendre, 4. déjà-vu.
 
 ### `insight-refutateur`
 

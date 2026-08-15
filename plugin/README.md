@@ -1,6 +1,6 @@
 # erom-insight
 
-Explore un repo GitHub tiers et en extrait ce qui vaut d'être volé pour une config Claude Code.
+Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code.
 
 La skill `harness` cible les harnais et agents CLI (dsh, opencode, crush, goose). Elle vérifie que le repo existe, reconnaît sa structure elle-même, te montre son plan de lecture, puis lâche un swarm de lecteurs sur des facettes disjointes. Avant de classer, un agent réfutateur essaie de détruire toute trouvaille qui prétend combler un manque de Claude Code. Ce qui survit est or.
 

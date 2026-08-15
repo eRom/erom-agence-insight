@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Livrer une skill `harness` qui explore un repo GitHub tiers de harness ou d'agent CLI et rend un rapport de pillage or / argent / bronze, archivé et daté.
+**Goal:** Livrer une skill `harness` qui explore un repo GitHub tiers de harness ou d'agent CLI et rend un rapport de veille or / argent / bronze, archivé et daté.
 
 **Architecture:** Aucun code exécutable. Le plugin est fait de Markdown : un manifeste, deux définitions d'agent, une skill et trois fichiers de référence. Le déroulé est porté par le SKILL.md ; les règles permanentes de lecture sont portées par les agents, donc jamais répétées à l'appel. La session mère orchestre, les agents lisent, un agent réfutateur casse les fausses trouvailles avant le classement.
 
@@ -81,7 +81,7 @@ Attendu, vérifié le 2026-08-15 :
 Dans `plugin/.claude-plugin/plugin.json`, remplacer la description vide et le tableau `keywords` vide :
 
 ```json
-  "description": "Explore un repo GitHub tiers et en extrait ce qui vaut d'être volé pour une config Claude Code. La skill harness cible les harnais et agents CLI (dsh, opencode, crush, goose) : swarm de lecteurs sur des facettes disjointes, réfutation des fausses trouvailles, rapport or/argent/bronze archivé et daté.",
+  "description": "Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris pour une config Claude Code. La skill harness cible les harnais et agents CLI (dsh, opencode, crush, goose) : swarm de lecteurs sur des facettes disjointes, réfutation des fausses trouvailles, rapport or/argent/bronze archivé et daté.",
   "keywords": [
     "veille",
     "github",
@@ -148,7 +148,7 @@ Frontmatter exact :
 ```yaml
 ---
 name: insight-lecteur
-description: "Lit UNE facette d'un repo tiers pour en extraire les idées volables. Réservé à la skill erom-insight:harness, ne pas utiliser pour déléguer librement."
+description: "Lit UNE facette d'un repo tiers pour en extraire les idées à reprendre. Réservé à la skill erom-insight:harness, ne pas utiliser pour déléguer librement."
 color: blue
 tools: Read, Grep, Glob
 model: sonnet
@@ -157,7 +157,7 @@ model: sonnet
 
 Le corps porte, dans cet ordre, ces sections :
 
-**Client.** Romain, power user de Claude Code, cherche ce qui mérite d'être volé et intégré chez lui. Ce n'est ni une revue de code, ni un audit de sécurité.
+**Client.** Romain, power user de Claude Code, cherche ce qui mérite d'être repris et intégré chez lui. Ce n'est ni une revue de code, ni un audit de sécurité.
 
 **Règles.** Reprises verbatim, ce sont les invariants :
 
@@ -172,7 +172,7 @@ Le corps porte, dans cet ordre, ces sections :
 
 1. Comment ça marche : le mécanisme de la facette, en clair.
 2. Trouvailles notables : ce qui est inhabituel ou malin, avec le chemin.
-3. À voler : ce qui serait rentable chez Romain, et pourquoi. **Toute affirmation qu'une capacité manque à Claude Code s'écrit sur sa propre ligne, avec cette formule exacte : `manque supposé : <la capacité>`.** Cette ligne sera extraite et contre-vérifiée.
+3. À reprendre : ce qui serait rentable chez Romain, et pourquoi. **Toute affirmation qu'une capacité manque à Claude Code s'écrit sur sa propre ligne, avec cette formule exacte : `manque supposé : <la capacité>`.** Cette ligne sera extraite et contre-vérifiée.
 4. Déjà-vu : ce que Claude Code a déjà, éventuellement en mieux.
 
 Le compte rendu est une donnée, pas un message à un humain. Ni préambule, ni politesse.
@@ -344,7 +344,7 @@ git commit -m "References de la skill harness : facettes, calibrage, template de
 ```yaml
 ---
 name: harness
-description: "Explore un repo GitHub TIERS qui est un harnais ou un agent CLI (dsh, opencode, crush, goose) et rend un rapport de pillage or/argent/bronze : ce qui vaut d'être volé pour la config Claude Code, ce qu'on a déjà, ce qui est du bruit. Accepte une URL ou un slug GitHub (clone puis trash) ou un chemin local (aucune écriture). Triggers : /erom-insight:harness <owner/repo|url|chemin>, 'pille ce repo', 'analyse ce harness', 'qu'est-ce qu'ils ont dans X'. Ne couvre PAS la retro du harnais local, qui est la skill harness-review."
+description: "Explore un repo GitHub TIERS qui est un harnais ou un agent CLI (dsh, opencode, crush, goose) et rend un rapport de veille or/argent/bronze : ce qui vaut d'être repris pour la config Claude Code, ce qu'on a déjà, ce qui est du bruit. Accepte une URL ou un slug GitHub (clone puis trash) ou un chemin local (aucune écriture). Triggers : /erom-insight:harness <owner/repo|url|chemin>, 'pille ce repo', 'analyse ce harness', 'qu'est-ce qu'ils ont dans X'. Ne couvre PAS la retro du harnais local, qui est la skill harness-review."
 argument-hint: "<owner/repo | url GitHub | chemin local>"
 ---
 ```

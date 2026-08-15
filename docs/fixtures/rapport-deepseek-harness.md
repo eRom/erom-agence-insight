@@ -1,10 +1,10 @@
-# DeepSeek Harness : rapport de pillage
+# DeepSeek Harness : rapport de veille
 
 Date : 2026-08-15. Source : clone de `deepseek-ai/deepseek-harness` (créé le 13/08, ~100k étoiles, MIT, developer preview). Méthode : 5 lecteurs Sonnet en parallèle sur les docs subsystems, les packages, les skills embarquées et les postmortems, plus lecture directe de AGENTS.md, du système de notes et de la doc governance.
 
 ## Verdict en 3 lignes
 
-Ce n'est pas du vaporware. C'est un harness complet type Claude Code, bâti sur Cordis (le framework de plugins de l'écosystème Koishi), avec une discipline d'ingénierie rare : docs machine-gated, postmortems, ~650 notes de décision écrites par leurs agents. Claude Code reste devant sur l'UX et la richesse (marketplace, tool Workflow, permissions, mobile), mais il y a de vraies idées à voler, surtout côté discipline d'exploitation.
+Ce n'est pas du vaporware. C'est un harness complet type Claude Code, bâti sur Cordis (le framework de plugins de l'écosystème Koishi), avec une discipline d'ingénierie rare : docs machine-gated, postmortems, ~650 notes de décision écrites par leurs agents. Claude Code reste devant sur l'UX et la richesse (marketplace, tool Workflow, permissions, mobile), mais il y a de vraies idées à reprendre, surtout côté discipline d'exploitation.
 
 ## Ce que c'est
 
@@ -13,7 +13,7 @@ Ce n'est pas du vaporware. C'est un harness complet type Claude Code, bâti sur 
 - Dogfoodé par leurs propres agents : AGENTS.md racine très dense, 11 skills embarquées, notes de décision obligatoires par PR.
 - Ils nous connaissent bien : ponts de compatibilité qui rejouent les hooks.json de Claude Code et Codex tels quels, et un tool `workflow` dont le vocabulaire (`agent()/pipeline()/parallel()/phase()`) est calqué sur celui de Claude Code.
 
-## Or : 5 idées à prendre, faible coût, gain réel
+## Or : 5 idées à reprendre, faible coût, gain réel
 
 ### 1. Verrou optimiste sur Edit
 Source : `docs/subsystems/filesystem.md` (« Write and edit guards »). Chaque écriture porte la version du fichier observée au dernier read. Fichier changé entre-temps : refus net `FS_STALE_VERSION`, jamais d'écrasement silencieux.
@@ -81,4 +81,4 @@ Source : `docs/postmortem/0003-web-agent-gui-feedback-loop.md`. Un agent a valid
 
 ## Couverture et limites
 
-Lu : les ~40 docs subsystems, les README des packages clés, les 11 skills embarquées, AGENTS.md, le système de notes, les 4 postmortems, la doc governance. Non lu en profondeur : le code source lui-même (les docs de 50 Ko en diagonale), le website, le SDK Python, vendor/cordis. Les mécanismes cités viennent des docs du repo ; rien n'a été exécuté ni testé. Repo à J+2 avec avertissement explicite de casse de compatibilité : ne rien coupler à leurs formats, ne voler que les idées.
+Lu : les ~40 docs subsystems, les README des packages clés, les 11 skills embarquées, AGENTS.md, le système de notes, les 4 postmortems, la doc governance. Non lu en profondeur : le code source lui-même (les docs de 50 Ko en diagonale), le website, le SDK Python, vendor/cordis. Les mécanismes cités viennent des docs du repo ; rien n'a été exécuté ni testé. Repo à J+2 avec avertissement explicite de casse de compatibilité : ne rien coupler à leurs formats, ne reprendre que les idées.
