@@ -1,0 +1,16 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "erom-insight",
+  "description": "",
+  "version": "0.1.0",
+  "author": {
+    "name": "Romain Ecarnot",
+    "url": "https://github.com/eRom"
+  },
+  "repository": "https://github.com/eRom/erom-agence-insight",
+  "license": "MIT",
+  "keywords": [
+
+  ],
+  "skills": "./skills/"
+}
