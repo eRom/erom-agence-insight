@@ -42,12 +42,31 @@ Source : documentation officielle du sandboxing, lue le 2026-08-15.
 
 **Le glob zsh échoue quand rien ne correspond** : `plugin/skills/*/SKILL.md` sort en `no matches found` et interrompt la boucle. Utiliser `find` dans les scripts de contrôle.
 
-**Un `grep` avec une regex large sur le binaire Claude Code (45 Mo) dépasse les 120 s** et part en tâche de fond. Utiliser `strings`, ou des motifs courts avec `grep -ao`.
+**Un `grep` avec une regex large sur le binaire Claude Code dépasse les 120 s** et part en tâche de fond. Utiliser `strings`, ou des motifs courts avec `grep -ao`. Le binaire grossit vite : 45 Mo au 2026-08-15, **293 Mo** en 2.1.233 au 2026-08-16. Le geste qui tient : `strings -n 6 <binaire> > <scratchpad>/cc-strings.txt` une fois (~472 000 lignes), puis toutes les recherches sur ce dump.
+
+**`grep -o` avec une répétition bornée au delà de 255 est refusé par le grep BSD de macOS.** `command grep -o "async function EDe(.\{0,1800\}"` sort `grep: maximum repetition exceeds 255` et ne rend rien. Pour extraire du contexte autour d'un motif dans un gros dump, passer par `python3` avec `re.finditer` et une tranche, jamais par `grep -o`. Re-testable en une commande.
 
 **Faux positif de recherche à connaître :** « gaspillage » contient « pillage ». Une vérification du vocabulaire doit chercher en mot entier (`grep -niE '\b(...)\b'`).
 
 **`grep -rn ... | grep -v <motif>` filtre aussi sur le chemin**, que `-rn` préfixe à chaque ligne. Pendant le renommage `tool` en `tool-claude` le 2026-08-16, `grep -v "tool-claude"` a masqué toutes les occurrences réelles restées dans `plugin/skills/tool-claude/SKILL.md`, dont le `name:` du frontmatter. Le contrôle a conclu « aucune occurrence » à tort. Filtrer sur le champ, pas sur la ligne entière, ou vérifier fichier par fichier.
 
+## Vérifier un fait sur Claude Code
+
+Source : session `tool-claude` sur `awrshift/claude-memory-kit`, 2026-08-16.
+
+**La documentation en ligne est tronquée par `WebFetch` sur les sections de contrôle de décision des hooks**, exactement celles qui servent à retoquer un claim. Deux appels sur `code.claude.com/docs/en/hooks` : le premier a rendu un tableau par événement qui s'est révélé faux sur `Stop` et incomplet sur `PreCompact`, le second a répondu `[Content truncated due to length...]` en nommant la section manquante. Au passage, `docs.claude.com/en/docs/claude-code/hooks` redirige en 301 vers `code.claude.com/docs/en/hooks`, et `WebFetch` ne suit pas la redirection.
+
+**La preuve fiable est le binaire installé**, `~/.local/share/claude/versions/<version>` (Mach-O compilé, le JS est dedans). Extraction de chaînes puis recherche Python sur le dump. C'est la source qui a tranché les deux claims porteurs du rapport, et c'est ce que le temps 2 de la skill appelle « vérifier que ce que l'outil nomme existe ». Limite à écrire dans tout rapport qui s'en sert : code minifié, noms brouillés, une seule version, donc le verdict est à re-jouer après une montée de version.
+
+**Deux faits Claude Code établis ainsi le 2026-08-16, en 2.1.233 :**
+
+- Un hook `PreCompact` bloque bien la compaction avec `{"decision":"block"}` ou un exit 2, mais **son `reason` n'atteint jamais le modèle**. Sur compaction automatique il part dans le logger interne et la session continue non compactée ; sur `/compact` manuel il est journalisé en `warn`, l'humain ne voit qu'une notification au texte fixe sans le motif, puis une erreur est levée. Le hook `Stop` se comporte à l'inverse : son `reason` remonte au modèle via `getStopHookMessage`. Un outil qui écrit une consigne pour l'agent dans un `reason` de `PreCompact` parle dans le vide.
+- **Un `.claude/rules/` à la racine d'un projet n'est jamais chargé.** Le loader n'est appelé que sur le dossier managed (portée Managed) et le dossier rules de la config utilisateur (portée User) ; la fonction de portée Project ne charge que `CLAUDE.md`. Le champ de portée natif s'appelle `globs`, pas `paths`.
+
+**Le slug d'un projet dans `~/.claude/projects/` ne se décode pas par substitution.** `-Users-recarnot-dev-erom-agence-insight` donne `/Users/recarnot/dev/erom/agence/insight` si on remplace chaque tiret par une barre, ce qui fait passer un projet vivant pour un projet supprimé. Le slug encode `/` **et** `.` par un tiret. Il faut une descente gloutonne testant les préfixes du plus long au plus court, avec et sans point initial, et accepter que certains slugs restent indécodables (chemins à espaces, arobases, numéros de version). Erreur commise puis corrigée dans la session.
+
 ## Repo exploré
 
 `deepseek-ai/deepseek-harness` : 117 Mo annoncés par l'API GitHub, 80 Mo sur disque après `git clone --depth 1`. Le garde-fou de la skill est à 500 Mo, ce repo passe donc largement. Il porte trois variantes par document (`x.md`, `x.zh.md`, `x.i18n.yaml`) : sans filtre, la reconnaissance assigne les mêmes chemins en triple.
+
+`awrshift/claude-memory-kit` : 178 Mo annoncés par l'API GitHub, **17 Mo** sur disque après `git clone --depth 1`. L'écart tient à l'historique des révisions graphiques, et le README le dit lui-même. Un poids annoncé n'est donc pas un critère de refus : mesurer après le clone superficiel, pas avant. Le dépôt lui-même fait une cinquantaine de fichiers, aucun besoin de déléguer à `insight-lecteur`.

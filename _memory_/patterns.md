@@ -37,6 +37,20 @@ RTK_DISABLED=1 command find plugin -name '*.md' \( -path '*/agents/*' -o -name '
     done
 ```
 
+## Mesurer un geste repris (skill `tool-claude`, temps 5)
+
+Le candidat vit dans le scratchpad, la cible n'est touchée qu'après accord. La comparaison avant contre après se fait sur le **même corpus réel**, en réimplémentant le regex ou la règle du tiers dans son propre script : le code du dépôt exploré n'est jamais exécuté, la skill l'interdit et la réimplémentation suffit.
+
+La mesure change le patch plus souvent qu'elle ne le confirme. Sur `claude-memory-kit` le 2026-08-16, le détecteur repris tel quel rendait 555 morts sur le corpus local contre 71 pour la version adaptée : le bruit pesait quatre fois le signal. Deux gestes séduisants ont été tués par le chiffre au lieu d'un débat (un triple plafond de mémoire, zéro fichier local au dessus du seuil ; un hook `SessionStart`, une seule référence morte dans la couche réellement injectée).
+
+Lire les cas perdus un par un est ce qui rend la mesure opposable. Rejouer les cas abandonnés contre l'ancienne règle départage « bruit sans enjeu » de « vraie régression » : 484 cas perdus, tous du bruit (identifiants de modèles, branches git, chemins d'exemple), zéro régression.
+
+## Suite de cas d'un patch posé
+
+Convention `<nom>.test.<ext>` à côté du fichier, sur le modèle de `~/.claude/scripts/guard-tools.test.sh`. Deux listes, jamais une seule : ce qui doit se déclencher, et les faux positifs relevés dans le corpus réel, recopiés à l'identique. Les assertions portent sur le comportement, jamais sur un compte figé ni sur le contenu du source testé.
+
+Un patch qui n'écrit rien doit avoir son invariant « n'écrit rien » dans la suite : contenu et liste du répertoire inchangés après exécution. Vérifié en plus hors suite sur le vrai corpus, par comparaison de `mtime`.
+
 ## Rédaction
 
 **Vocabulaire :** « reprendre », jamais « voler ». « Rapport de veille », jamais « rapport de pillage ». Le plugin part sur une marketplace publique, le champ lexical du vol y est impubliable même quand il est exact.
