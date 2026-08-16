@@ -1,6 +1,6 @@
 # Gabarit du rapport d'outil
 
-Le rapport de référence, à imiter en densité et en ton : `docs/insight-graft-2026-08-16.md` dans le repo du plugin.
+Le rapport de référence, à imiter en densité et en ton : `example-insight-graft-2026-08-16.md` dans le repo du plugin.
 
 ## Frontmatter
 
