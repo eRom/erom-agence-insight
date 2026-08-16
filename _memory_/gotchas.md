@@ -1,6 +1,12 @@
 # Pièges
 
-Mise à jour : 2026-08-15
+Mise à jour : 2026-08-16
+
+## Publication
+
+**La description de l'entrée marketplace duplique des chemins du plugin, et pourrit en silence.** Le commit `c684ac6` a renommé le répertoire d'artefacts `~/.claude/erom-plugins/` en `erom-plugin-artefacts` dans ce repo. La description de `erom-insight` dans `~/dev/erom-marketplace/.claude-plugin/marketplace.json` pointait toujours l'ancien chemin le 2026-08-16, corrigée dans `8e52192`. Rien ne relie les deux repos : un renommage ici n'atteint jamais la marketplace. À la release suivante, relire la description de l'entrée en entier, pas seulement la version.
+
+**Publier ne rend pas la skill utilisable en local.** Au 2026-08-16, après la release 0.4.0, `erom-insight@erom-marketplace` valait `false` dans `enabledPlugins` de `~/.claude/settings.json`, le cache s'arrêtait à `0.3.0`, et `installed_plugins.json` n'avait qu'un enregistrement de scope `user` sur cette même version. Deux gestes séparés restent nécessaires après un push : `claude plugin update erom-insight@erom-marketplace`, puis l'activation via `/plugin`.
 
 ## Outillage plugin
 
@@ -39,6 +45,8 @@ Source : documentation officielle du sandboxing, lue le 2026-08-15.
 **Un `grep` avec une regex large sur le binaire Claude Code (45 Mo) dépasse les 120 s** et part en tâche de fond. Utiliser `strings`, ou des motifs courts avec `grep -ao`.
 
 **Faux positif de recherche à connaître :** « gaspillage » contient « pillage ». Une vérification du vocabulaire doit chercher en mot entier (`grep -niE '\b(...)\b'`).
+
+**`grep -rn ... | grep -v <motif>` filtre aussi sur le chemin**, que `-rn` préfixe à chaque ligne. Pendant le renommage `tool` en `tool-claude` le 2026-08-16, `grep -v "tool-claude"` a masqué toutes les occurrences réelles restées dans `plugin/skills/tool-claude/SKILL.md`, dont le `name:` du frontmatter. Le contrôle a conclu « aucune occurrence » à tort. Filtrer sur le champ, pas sur la ligne entière, ou vérifier fichier par fichier.
 
 ## Repo exploré
 
