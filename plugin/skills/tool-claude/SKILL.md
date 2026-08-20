@@ -105,7 +105,7 @@ La mesure change le patch dans la majorité des cas, et c'est le seul intérêt 
 
 Charge `references/template-rapport.md` et suis-le.
 
-Écris dans `~/.claude/erom-plugin-artefacts/insights/tool-<owner>-<repo>-<YYYY-MM-DD>.md`. En mode `local` sans remote GitHub, `tool-local-<nom-du-dossier>-<date>.md`. Si le fichier existe déjà pour aujourd'hui, suffixe `-2`, puis `-3`.
+Écris dans `~/.claude/erom-store/insights/tool-<owner>-<repo>-<YYYY-MM-DD>.md`. En mode `local` sans remote GitHub, `tool-local-<nom-du-dossier>-<date>.md`. Si le fichier existe déjà pour aujourd'hui, suffixe `-2`, puis `-3`.
 
 Récupère les champs de session :
 

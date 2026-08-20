@@ -33,9 +33,9 @@ Mise à jour : 2026-08-16
 
 ## Sorties, hors repo
 
-`~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports de `harness`. Un exemplaire existe pour `deepseek-ai/deepseek-harness`.
+`~/.claude/erom-store/insights/<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports de `harness`. Un exemplaire existe pour `deepseek-ai/deepseek-harness`.
 
-`~/.claude/erom-plugin-artefacts/insights/tool-<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports de `tool-claude`. Le préfixe `tool-` est ce qui les distingue, il n'a pas suivi le renommage de la skill en `tool-claude`.
+`~/.claude/erom-store/insights/tool-<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports de `tool-claude`. Le préfixe `tool-` est ce qui les distingue, il n'a pas suivi le renommage de la skill en `tool-claude`.
 
 ## Contrat entre composants
 

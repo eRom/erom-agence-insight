@@ -109,7 +109,7 @@ Vérifier que l'année et le nom sont corrects, corriger si besoin.
 - une phrase sur ce que fait le plugin
 - le tableau des deux modes d'entrée (URL GitHub, chemin local) et de leur nettoyage
 - l'invocation : `/erom-insight:harness <owner/repo | url | chemin>`
-- où atterrit le rapport : `~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<date>.md`
+- où atterrit le rapport : `~/.claude/erom-store/insights/<owner>-<repo>-<date>.md`
 - la liste des composants (une skill, deux agents)
 - une ligne disant que la skill ne couvre pas la rétro du harnais local, qui est `harness-review`
 
@@ -425,7 +425,7 @@ Classement : `manque_tient` autorise l'or. `deja_natif` bascule la trouvaille en
 
 - [ ] **Step 9 : Temps 6, rapport et livraison**
 
-Charger `references/template-rapport.md`. Synthétiser, jamais concaténer. Écrire dans `~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<YYYY-MM-DD>.md`, en `local-<dossier>-<date>.md` si mode local sans remote, suffixe `-2` en cas de collision le même jour.
+Charger `references/template-rapport.md`. Synthétiser, jamais concaténer. Écrire dans `~/.claude/erom-store/insights/<owner>-<repo>-<YYYY-MM-DD>.md`, en `local-<dossier>-<date>.md` si mode local sans remote, suffixe `-2` en cas de collision le même jour.
 
 Récupérer les champs de session via `~/.claude/skills/session-whoami/scripts/*.sh --json` si le script existe, sinon omettre ces champs.
 

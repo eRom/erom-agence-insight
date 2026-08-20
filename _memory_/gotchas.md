@@ -4,7 +4,7 @@ Mise à jour : 2026-08-16
 
 ## Publication
 
-**La description de l'entrée marketplace duplique des chemins du plugin, et pourrit en silence.** Le commit `c684ac6` a renommé le répertoire d'artefacts `~/.claude/erom-plugins/` en `erom-plugin-artefacts` dans ce repo. La description de `erom-insight` dans `~/dev/erom-marketplace/.claude-plugin/marketplace.json` pointait toujours l'ancien chemin le 2026-08-16, corrigée dans `8e52192`. Rien ne relie les deux repos : un renommage ici n'atteint jamais la marketplace. À la release suivante, relire la description de l'entrée en entier, pas seulement la version.
+**La description de l'entrée marketplace duplique des chemins du plugin, et pourrit en silence.** Le commit `c684ac6` a renommé le répertoire d'artefacts `~/.claude/erom-plugins/` en `erom-store` dans ce repo. La description de `erom-insight` dans `~/dev/erom-marketplace/.claude-plugin/marketplace.json` pointait toujours l'ancien chemin le 2026-08-16, corrigée dans `8e52192`. Rien ne relie les deux repos : un renommage ici n'atteint jamais la marketplace. À la release suivante, relire la description de l'entrée en entier, pas seulement la version.
 
 **Publier ne rend pas la skill utilisable en local.** Au 2026-08-16, après la release 0.4.0, `erom-insight@erom-marketplace` valait `false` dans `enabledPlugins` de `~/.claude/settings.json`, le cache s'arrêtait à `0.3.0`, et `installed_plugins.json` n'avait qu'un enregistrement de scope `user` sur cette même version. Deux gestes séparés restent nécessaires après un push : `claude plugin update erom-insight@erom-marketplace`, puis l'activation via `/plugin`.
 

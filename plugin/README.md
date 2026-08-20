@@ -52,7 +52,7 @@ Le verdict prend une de quatre valeurs : `installer`, `ne-pas-installer`, `insta
 
 En mode `local`, si le dossier a un remote GitHub, owner et repo en sont dérivés et les métadonnées GitHub sont récupérées quand même.
 
-Les rapports sont écrits dans `~/.claude/erom-plugin-artefacts/insights/`, puis envoyés en pièce lisible sur mobile.
+Les rapports sont écrits dans `~/.claude/erom-store/insights/`, puis envoyés en pièce lisible sur mobile.
 
 ## Composants
 

@@ -4,7 +4,7 @@ Chantier du 2026-08-16. Objets : les modèles `deepseek-v4-flash` (checkpoint Fl
 
 Sources : repo dsh lu en direct (samples/deepseek-harness), doc officielle DeepSeek vérifiée par fetch direct, tests headless mesurés, session log dsh autopsié. Veille modèles détaillée : `docs/veille-deepseek-v4-flash-pro-2026-08.md`. Notes de chantier : `.claude/notes/2026-08-16-deepseek-v4-dsh.md`.
 
-Complément indissociable : l'insight harness du 2026-08-15 (`~/.claude/erom-plugin-artefacts/insights/deepseek-ai-deepseek-harness-2026-08-15.md`) répond à l'autre question, « qu'est-ce que dsh apprend à NOTRE harnais » (5 gestes or : supersession mémoire, exit codes du guard, anti-fuite de rédaction, postmortem avec test, presets de sécurité). Ce rapport-ci n'en recopie pas la matière. Contexte utile qu'il apporte : le repo dsh a été créé le 2026-08-13, il avait DEUX JOURS au moment de l'analyse (102k étoiles déjà), sandbox natif par OS (Landlock/bwrap Linux, Seatbelt macOS, ACL Windows), et leur doc reconnaît elle-même Claude Code comme source du vocabulaire de leur outil workflow.
+Complément indissociable : l'insight harness du 2026-08-15 (`~/.claude/erom-store/insights/deepseek-ai-deepseek-harness-2026-08-15.md`) répond à l'autre question, « qu'est-ce que dsh apprend à NOTRE harnais » (5 gestes or : supersession mémoire, exit codes du guard, anti-fuite de rédaction, postmortem avec test, presets de sécurité). Ce rapport-ci n'en recopie pas la matière. Contexte utile qu'il apporte : le repo dsh a été créé le 2026-08-13, il avait DEUX JOURS au moment de l'analyse (102k étoiles déjà), sandbox natif par OS (Landlock/bwrap Linux, Seatbelt macOS, ACL Windows), et leur doc reconnaît elle-même Claude Code comme source du vocabulaire de leur outil workflow.
 
 ## TL;DR
 

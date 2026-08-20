@@ -112,7 +112,7 @@ Synthèse, jamais une concaténation des rapports de lecteurs. Structure imposé
 - **déjà-vu** : ce qu'on a déjà, parfois en mieux
 - **couverture et limites**, obligatoire : ce qui n'a pas été lu, le fait que rien n'a été exécuté ni testé, l'âge du repo et l'instabilité qui va avec
 
-Écriture dans `~/.claude/erom-plugin-artefacts/insights/<owner>-<repo>-<YYYY-MM-DD>.md`. En mode `local` sans remote, `local-<nom-du-dossier>-<date>.md`. Collision le même jour : suffixe `-2`.
+Écriture dans `~/.claude/erom-store/insights/<owner>-<repo>-<YYYY-MM-DD>.md`. En mode `local` sans remote, `local-<nom-du-dossier>-<date>.md`. Collision le même jour : suffixe `-2`.
 
 Puis `SendUserFile` en `display: "render"`, et gravure des conclusions durables en mémoire.
 
