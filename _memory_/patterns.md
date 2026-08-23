@@ -61,6 +61,10 @@ Un patch qui n'écrit rien doit avoir son invariant « n'écrit rien » dans la 
 
 Aucun tiret cadratin nulle part : un hook `guard-emdash` bloque tout Edit ou Write qui en contient, y compris recopié dans le `old_string`.
 
+## Tester une skill avant de la livrer
+
+Méthode skill-creator, appliquée à `skill-claude` le 2026-08-23 : les cas d'éval vivent dans `docs/evals/<skill>/evals.json` (prompts réalistes, résultat attendu), l'espace de travail dans le scratchpad de session (`<scratchpad>/<skill>-workspace/iteration-N/<cas>/{with_skill,without_skill}/`), jamais dans `plugin/`. Chaque cas est joué par un subagent `opus` avec la skill (« Base directory for this skill » et `$ARGUMENTS` reproduits dans le prompt, scratchpad et dossier de sortie imposés, consigne de ne poser aucune question) et un autre sans. Le subagent écrit aussi un `journal.md` de frictions : c'est lui qui a produit la quasi-totalité des correctifs, bien plus que les assertions. Les assertions se notent à la main sur preuves (grep, md5, listes de commandes), jamais sur la parole du subagent. Les baselines sans skill se réutilisent d'une itération à l'autre. La note d'acceptation (`docs/acceptation-<date>-<skill>.md`) porte les AC avec leur preuve, le benchmark et les limites du test.
+
 ## Documents de décision
 
 Chaque arbitrage porte une ligne `**Battu :**` nommant l'alternative écartée et pourquoi elle a perdu. Le frontmatter porte `status: proposed | implemented | rejected` avec sa date. Régime adopté par Romain le 2026-08-15.
@@ -69,6 +73,6 @@ Chaque arbitrage porte une ligne `**Battu :**` nommant l'alternative écartée e
 
 Messages en français, sujet court puis corps qui explique le pourquoi. Terminés par `Co-Authored-By` et `Claude-Session`. Une branche de travail par chantier, mergée en fast-forward dans `main`.
 
-Le repo ne porte **aucun commit de merge** (`git log --merges` sort vide), ce qui ne départage pas un merge fast-forward d'un commit direct. Le 2026-08-16, le chantier `tool-claude` a été committé directement sur `main` sur demande de Romain, sans qu'il le reprenne. `[candidat 1x - release erom-insight 0.4.0]`
+Le repo ne porte **aucun commit de merge** (`git log --merges` sort vide), ce qui ne départage pas un merge fast-forward d'un commit direct. Le 2026-08-16, le chantier `tool-claude` a été committé directement sur `main` sur demande de Romain, sans qu'il le reprenne. `[candidat 1x - release erom-insight 0.4.0]` Le 2026-08-23, le chantier `skill-claude` a suivi la convention : branche, deux commits, merge fast-forward sur demande explicite (« merge dans main »), puis `/plugin-release`.
 
 Le repo du plugin ne suit pas la convention `<type>(<portée>):` que la skill `plugin-release` propose ; les sujets y sont en français libre. La marketplace, elle, la suit. Vérifier avec `git log -3 --format='%B'` du repo concerné plutôt que d'appliquer une convention par défaut.

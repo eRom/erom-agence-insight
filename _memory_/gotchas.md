@@ -14,6 +14,12 @@ Mise à jour : 2026-08-23
 
 **Un plugin ne peut pas porter de permissions.** Champ `permissions` injecté dans un manifeste de test : `Unknown field 'permissions'. Claude Code ignores it at load time.` Les permissions n'existent qu'en scope user, projet, local ou `--settings`, donc liées à un répertoire et jamais à un plugin. Une skill de plugin s'invoquant depuis n'importe quel dossier, il n'existe aucun moyen de restreindre des permissions « au périmètre de ce plugin ».
 
+## Outillage skill-creator
+
+**`aggregate_benchmark.py` et `generate_review.py` n'acceptent pas la structure que le `SKILL.md` de skill-creator décrit.** Le texte dit « un dossier par cas, nommé d'après ce qu'il teste » ; les scripts ne découvrent que `runs/eval-*/<config>/run-N/` (ou `eval-*` directement sous le workspace), et lisent `grading.json` avec un bloc `summary` (`passed`, `failed`, `total`, `pass_rate`) que le même `SKILL.md` ne mentionne pas (il impose seulement `text`, `passed`, `evidence` par assertion). Sans le bloc, le run compte 0 %. Constaté le 2026-08-23 : premier agrégat « Evals: 0, delta +0.00 », puis « Without Skill: 16.7 % » sur des copies sans `summary`. Le contournement qui tient : construire `runs/eval-<id>-<nom>/<config>/run-1/` par script avec `grading.json` (plus `summary`), `timing.json` et `outputs/` recopiés, puis agréger. `[candidat 1x - evals skill-claude]`
+
+**`claude plugin update` ne réactive pas un plugin désactivé.** Re-confirmé le 2026-08-23 : `erom-insight` passé de 0.5.0 à 0.6.0 en scope user, `enabledPlugins` toujours `false` dans `~/.claude/settings.json`. L'activation reste un geste séparé via `/plugin`.
+
 ## Agents
 
 **Ne pas donner de `name` à un agent one-shot.** Un agent nommé devient un teammate adressable : il se signale disponible et son texte final ne remonte pas à la session mère tant qu'on ne le lui redemande pas par `SendMessage`. Constaté au rejeu : 3 lecteurs sur 5 ont dû être relancés, 2 n'avaient toujours rien rendu au moment où on les a respawnés en anonymes. Sans `name`, le texte final est la valeur de retour.
