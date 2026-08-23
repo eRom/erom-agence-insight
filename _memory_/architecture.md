@@ -1,21 +1,22 @@
 # Architecture
 
-Mise à jour : 2026-08-16
+Mise à jour : 2026-08-23
 
 ## Objectif
 
 Plugin Claude Code `erom-insight` (repo `erom-agence-insight`). Il explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code.
 
-Deux skills, deux questions distinctes :
+Trois skills, trois questions distinctes :
 
 | Skill | Cible | Question |
 |---|---|---|
 | `harness` | harnais et agents CLI concurrents | qu'est-ce qu'ils ont que je n'ai pas ? |
 | `tool-claude` | outils qui se branchent sur Claude Code | est-ce que je l'installe ? |
+| `skill-claude` | skills et plugins Claude Code tiers | est-ce que je peux l'installer sans risque, et ça vaut quoi ? |
 
 ## Stack
 
-Aucun code exécutable. Le plugin est fait de Markdown. Les dépendances externes sont `gh` (authentifié), `git`, `trash`, et les agents Claude Code en modèle `sonnet`.
+Markdown, plus un seul script exécutable depuis le 2026-08-23 : `skills/skill-claude/scripts/secu-scan.py` (Python 3 stdlib, lecture seule, sa suite de cas à côté). Les dépendances externes sont `gh` (authentifié), `git`, `trash`, `python3`, et les agents Claude Code.
 
 ## Découpage
 
@@ -27,13 +28,15 @@ plugin/                      tout le publiable, envoyé sur la marketplace
   agents/                    2 agents, partagés par les deux skills
   skills/harness/            1 skill + 3 références
   skills/tool-claude/        1 skill + 4 références
+  skills/skill-claude/       1 skill + 2 références + 1 script et sa suite de cas
 docs/                        hors plugin publié
-  fixtures/                  rapport de référence servant de test d'acceptation
+  fixtures/                  rapport de référence de harness, skill piégée inerte pour skill-claude
+  evals/skill-claude/        les 3 cas d'éval de skill-claude (méthode skill-creator)
   superpowers/{specs,plans}/
 _memory_/
 ```
 
-**Le socle commun n'a pas été extrait**, alors que la deuxième famille existe désormais et que c'était la condition posée le 2026-08-15. Les deux skills dupliquent l'étape 0 (résolution du mode remote / local, vérification `gh api`, clone) et le bloc anti-injection, à quelques phrases près. Duplication assumée pour l'instant : le format `references/` est propre à chaque skill, et un socle partagé n'a pas d'emplacement naturel dans l'arborescence d'un plugin. À reprendre si une troisième famille arrive.
+**Le socle commun n'a toujours pas été extrait**, et la troisième famille est arrivée le 2026-08-23. Les trois skills dupliquent l'étape 0 (résolution du mode remote / local, vérification `gh api`, clone) et le bloc anti-injection, à quelques phrases près ; `skill-claude` ajoute à l'étape 0 le sous-chemin `tree/<branche>/<chemin>` et la reconnaissance skill / plugin / catalogue. Duplication maintenue sciemment : chaque étape 0 diverge un peu (seuils, sous-chemin, nature de la cible), un socle partagé n'a pas d'emplacement naturel dans un plugin, et la dérive entre trois copies d'un bloc de 20 lignes coûte moins qu'une indirection de plus au chargement. `[candidat 1x - chantier skill-claude 2026-08-23]`
 
 `tool-claude` réutilise `insight-lecteur` pour la lecture d'une zone sur un gros repo, mais n'a pas de swarm ni de réfutateur : sa charge de preuve est le `fichier:ligne`, pas le vote d'un agent isolé.
 
@@ -60,6 +63,18 @@ Sept temps aussi, un seul arrêt, mais placé ailleurs : **juste avant d'écrire
 5. **mesure** chaque geste volé est mesuré sur le corpus local avant qu'une ligne de patch soit écrite
 6. **rapport puis arrêt** verdict d'installation parmi `installer`, `ne-pas-installer`, `installer-partiellement`, `surveiller`
 7. **application** sauvegarde, patch, suite de test installée à côté du fichier, résultat rapporté brut
+
+## Flux de `skill-claude`
+
+Cinq temps, zéro arrêt hors sécurité : la skill n'écrit jamais dans la configuration, donc rien n'attend Romain, sauf l'arrêt de sécurité qui, lui, arrête tout.
+
+1. **étape 0** mode remote / local, sous-chemin `tree/<branche>/<chemin>`, reconnaissance skill / plugin / catalogue (un catalogue arrête : une cible est une skill ou un plugin)
+2. **sécurité** scanner `secu-scan.py` puis lecture de chaque rouge à sa ligne, de chaque script, hook, serveur MCP et fichier de consignes en entier ; `ok` ou `stop` ; sur `stop` : message en chat dans une forme imposée, rapport minimal `stop-secu`, `trash`, fin
+3. **pourquoi et comment** finalité, tableau (où ça tourne, authentification, prérequis, ce qui sort, pour quel harnais), mécanisme réel
+4. **véracité** promesses de la description contre le corps, ce qu'elle nomme existe-t-il, un fait d'API vérifié contre la doc officielle, les scripts contre la prose
+5. **verdict** déjà-vu local d'abord (skills chargées, disque, MCP), puis `installer` / `trash` / `refaire` avec la condition qui le changerait ; rapport dans le store, `SendUserFile`, `trash` du clone
+
+**Décision structurante, temps 2 (scanner avant lecture).** Le scanner existe parce que l'oeil et le modèle sautent la même chose : caractères invisibles, HTML caché, blobs encodés, contenu des scripts. Il est le plancher, pas le plafond : `references/secu.md` liste ce qu'il ne voit pas (sémantique, bombes logiques, assemblage de chaînes, consignes réparties) et impose la lecture intégrale des scripts et des consignes.
 
 ## Deux modes d'entrée
 

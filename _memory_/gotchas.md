@@ -1,6 +1,6 @@
 # Pièges
 
-Mise à jour : 2026-08-16
+Mise à jour : 2026-08-23
 
 ## Publication
 
@@ -37,6 +37,12 @@ Source : documentation officielle du sandboxing, lue le 2026-08-15.
 **`sandbox.filesystem.disabled` n'est honoré que depuis les settings user, managed, ou le flag `--settings`.** Un repo checked-out ne peut pas couper l'isolation filesystem.
 
 **Rien dans la configuration ne couvre l'injection de prompt.** C'est le seul risque résiduel de ce plugin, puisque rien du repo exploré n'est jamais exécuté. La parade est dans les prompts : consignes dans le temps 2 du SKILL.md pour la mère, et dans `insight-lecteur.md` pour les lecteurs. La mère est le maillon exposé, car elle ouvre `AGENTS.md` et `CLAUDE.md` en premier et dispose de tous les outils.
+
+## Sorties d'outils réécrites par le harnais
+
+**Un `[REDACTED:env_secret]` dans une sortie d'outil n'est pas dans le fichier.** Le hook local `~/.claude/hooks/redact-context.ts` (PostToolUse, tier `mandatory`, règle `env_secret`) réécrit dans les sorties de `Bash`, `Read`, `Grep`, `WebFetch`, `Agent` et des outils MCP toute valeur de 8 caractères ou plus qui suit `KEY`, `TOKEN`, `SECRET`, `PASSWORD`, `PASSWD` ou `PWD` et un `=` ou `:`. `RTK_DISABLED=1 command cat` n'y change rien, ce n'est pas rtk. Constaté le 2026-08-23 sur `linear_issues.sh:47` du plugin Linear d'Anthropic : la ligne affichée `API_KEY="[REDACTED:env_secret]"` était en réalité `API_KEY="${LINEAR_API_KEY:-placeholder}"`, et la première lecture avait conclu à tort que le script n'atteignait jamais l'environnement. Le dump hexa passe : `sed -n 47p <fichier> | xxd`. Re-testable en une commande sur n'importe quel fichier contenant `X_KEY="abcdefghij"`.
+
+**Un caractère invisible tapé en littéral dans un source finit dans le fichier.** En écrivant `secu-scan.py`, un `startswith("<BOM>")` a été écrit avec le vrai U+FEFF au lieu de `"\ufeff"` ; même chose dans la suite de cas avec des U+200B littéraux. Vérification : `grep -c $'\xEF\xBB\xBF' <fichier>` et un scan du fichier par le scanner lui-même. Toujours écrire les échappements.
 
 ## Shell et environnement
 

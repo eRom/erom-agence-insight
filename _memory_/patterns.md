@@ -1,6 +1,6 @@
 # Conventions
 
-Mise à jour : 2026-08-16
+Mise à jour : 2026-08-23
 
 ## Structure d'un plugin eRom
 
@@ -18,7 +18,7 @@ Le manifeste déclare `"skills": "./skills/"`, un **répertoire**, là où `"age
 Agent : `name`, `description`, `color`, `tools`, `model`.
 Skill : `name`, `description` (les triggers sont écrits dedans), `argument-hint`.
 
-Une description de skill doit dire aussi ce qu'elle **ne** couvre pas quand une skill voisine existe. La disjonction est à trois branches depuis le 2026-08-16 : `harness` ne couvre ni les outils tiers (`tool-claude`) ni la rétro du harnais local (`harness-review`, dans le global) ; `tool-claude` renvoie aux deux autres de la même façon.
+Une description de skill doit dire aussi ce qu'elle **ne** couvre pas quand une skill voisine existe. La disjonction est à quatre branches depuis le 2026-08-23 : `harness` (harnais concurrents), `tool-claude` (outils branchés sur Claude Code), `skill-claude` (skills et plugins tiers avant installation), `harness-review` (rétro du harnais local, dans le global) ; `skill-claude` renvoie en plus à la commande native `/skill-doctor` pour les skills déjà chargées. Les deux anciennes descriptions n'ont pas encore été mises à jour pour citer `skill-claude`.
 
 Le nom d'une skill sert d'abord à Romain qui la tape. `tool` a été renommée `tool-claude` juste après sa création, pour cette seule raison : le préfixe `/erom-insight:` ne suffit pas à s'y retrouver dans le sélecteur.
 
@@ -36,6 +36,10 @@ RTK_DISABLED=1 command find plugin -name '*.md' \( -path '*/agents/*' -o -name '
         echo "ok   $f"; else echo "KO   $f"; fi
     done
 ```
+
+## Calibrer un détecteur sur du vrai avant de le livrer
+
+Le scanner de `skill-claude` a été passé, avant sa première éval, sur des skills connues saines : le plugin Linear d'Anthropic, `harness`, `tool-claude`, `skill-creator`, `superpowers` entier, trois skills globales. Deux faux rouges sont tombés à ce moment là et nulle part ailleurs : `display:none` dans un vrai HTML d'interface (le HTML caché ne compte désormais que dans les fichiers de consignes), et `font-size:0.8rem` pris pour `font-size:0`. Les lignes fautives sont recopiées telles quelles dans la liste des faux positifs de `secu-scan.test.py`. La règle : un détecteur qui n'a pas vu de corpus sain ne connaît pas son bruit.
 
 ## Mesurer un geste repris (skill `tool-claude`, temps 5)
 
