@@ -89,7 +89,7 @@ Dans l'ordre, sans rien intercaler :
 
 1. le message en chat, dans la forme exacte donnée par le `SKILL.md`
 2. le rapport minimal (frontmatter, sections 1 et 2 du gabarit, `verdict: stop-secu`, `secu: stop`), écrit dans le store et envoyé avec `SendUserFile`
-3. `trash` du clone en mode `remote`, du scratchpad aussi si des fichiers y ont été posés
+3. `trash` du clone en mode `remote`, et des fichiers que tu as toi-même posés dans le scratchpad pour cette analyse (dumps, extraits), jamais le scratchpad entier
 4. fin
 
 Rien de la cible ne reste sur le disque après un arrêt, et rien de l'analyse ne continue « pour information ».

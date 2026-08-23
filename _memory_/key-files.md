@@ -33,6 +33,7 @@ Mise à jour : 2026-08-23
 | `docs/insight-graft-2026-08-16.md` | rapport de référence de `tool-claude` sur `nanonets/graft`, cité comme fixture par son template ; porte les 10 sections dont la mesure et la couverture |
 | `docs/fixtures/skill-piegee/` | skill malveillante inerte (pipe vers shell sur TLD `.invalid`, hôte d'exfiltration à identifiant nul, `U+200B`, commentaire HTML d'injection) : cas d'arrêt de `skill-claude` |
 | `docs/evals/skill-claude/evals.json` | les 3 cas d'éval de `skill-claude` : Linear distant en sous-dossier, launchd local sain, fixture piégée |
+| `docs/acceptation-2026-08-23-skill-claude.md` | acceptation de `skill-claude` : 8 critères AC avec leur preuve, benchmark avec et sans skill sur 2 itérations, ce que les runs ont corrigé, limites du test |
 | `docs/acceptation-2026-08-15-dsh.md` | constat du rejeu : 4 critères, 6 défauts trouvés et corrigés, limites du test |
 | `docs/superpowers/specs/2026-08-15-erom-insight-harness-design.md` | la spec, avec ses lignes `Battu :` |
 | `docs/superpowers/plans/2026-08-15-erom-insight-harness.md` | le plan en 5 tâches, porte les deux commandes du gate |

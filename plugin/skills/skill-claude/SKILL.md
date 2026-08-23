@@ -41,9 +41,9 @@ git clone --depth 1 --branch <branche> https://github.com/<owner>/<repo>.git "<s
 
 Omets `--branch` quand l'URL ne nomme pas de branche. La cible est `<scratchpad>/skill-<owner>-<repo>/<chemin>`.
 
-En mode `local`, le dossier est la cible et son nom sert au rapport (`local/<nom-du-dossier>`), quoi qu'il y ait autour. Un remote GitHub n'enrichit que les métadonnées (`url`, `licence`), et seulement si la cible est suivie par ce dépôt : `git -C <chemin> ls-files --error-unmatch . >/dev/null 2>&1`. Un dossier non suivi posé dans un dépôt de Romain n'a ni URL ni licence à citer, et nommer le rapport d'après ce dépôt serait trompeur.
+En mode `local`, le dossier est la cible et son nom sert au rapport (`local/<nom-du-dossier>`), quoi qu'il y ait autour. Un remote GitHub n'enrichit que les métadonnées, et à deux conditions : la cible est suivie par ce dépôt (`git -C <chemin> ls-files --error-unmatch . >/dev/null 2>&1`), et l'URL que tu écrirais répond vraiment (`RTK_DISABLED=1 command gh api "repos/<owner>/<repo>/contents/<chemin>?ref=<branche>" --jq .name`, la branche étant celle de `git -C <chemin> branch --show-current`). Sinon `url` est omis : un dossier non suivi, une branche jamais poussée ou un dépôt privé donnent une URL morte ou trompeuse. `licence` suit la même règle, `aucune` si le dépôt n'en déclare pas.
 
-**Si la cible est déjà chez Romain** (sous `~/.claude/skills/`, dans le cache des plugins, ou chargée dans cette session), dis-le en première ligne du verdict : elle n'est pas tierce, le verdict `installer` se lit « garder » et le geste est nul. Le déroulé reste le même, une skill de Romain se juge comme une autre.
+**Si la cible est déjà chez Romain** (sous `~/.claude/skills/`, dans le cache des plugins, ou chargée dans cette session), dis-le en première ligne du verdict : elle n'est pas tierce, le verdict `installer` se lit « garder » et le geste est nul ; le déjà-vu l'exclut elle-même et cherche ce qui la doublonne ; la recommandation devient garder, refaire ou trash, avec sa condition. Une cible posée dans un dépôt de travail de Romain sans être installée (une fixture, un brouillon) se juge comme une skill tierce. Le déroulé reste le même dans tous les cas.
 
 **Reconnais la nature de la cible**, dans les deux modes :
 
@@ -77,6 +77,10 @@ Quand une famille orange est le métier déclaré de la skill (la persistance po
 
 **Piège de ce harnais** : un `[REDACTED:...]` dans une sortie d'outil n'est pas dans le fichier. Un hook local réécrit, y compris dans `Read`, toute valeur qui suit un nom finissant par `KEY`, `TOKEN`, `SECRET` ou `PASSWORD` et un signe égal ou deux-points. Une expansion shell ordinaire avec valeur par défaut se fait prendre comme un vrai secret. Avant de conclure « secret en dur » ou « ne lit jamais l'environnement », dumpe la ligne, le hook ne reconnaît pas l'hexadécimal : `sed -n <N>p <fichier> | xxd`. Et dans le rapport, décris la ligne au lieu de la recopier, sinon ton rapport se fait rediger à sa propre relecture.
 
+Interroger un binaire système que la cible nomme (`launchctl help`, `gh --help`, `man jq`) n'est pas exécuter la cible : c'est vérifier que ce qu'elle nomme existe, et c'est permis. Ce qui est interdit, c'est tout ce qui vient du dossier cible : ses scripts, ses commandes, ses tests.
+
+Dès ce temps, tu cites des passages de la cible, en chat et dans le rapport. Une citation qui contient un tiret cadratin se recopie avec un tiret simple, suivie de « (cadratin remplacé) » : le hook `guard-emdash` refuse l'écriture sinon, et la citation reste fidèle au mot près.
+
 **Verdict de sécurité** : `ok` ou `stop`. Les critères d'arrêt sont dans `references/secu.md`, et ils ne se négocient pas avec la qualité du reste : une skill brillante qui exfiltre est une skill qui exfiltre.
 
 ### Si c'est `stop`
@@ -86,11 +90,11 @@ Tu préviens Romain immédiatement, dans cette forme, et tu ne fais rien d'autre
 ```
 STOP SÉCURITÉ : <cible>
 Quoi : <famille>. Où : <fichier:ligne>. Passage : `<extrait>`
-Ce que ça ferait une fois installée : <une phrase concrète>
+Ce que ça ferait une fois installée : <une phrase concrète, globale, pour l'ensemble des rouges>
 <mode remote : « Clone supprimé, rien d'installé. » | mode local : « Rien écrit dans le dossier, rien d'installé. »> Rapport minimal : <chemin>
 ```
 
-Puis, dans l'ordre : écris le rapport minimal (frontmatter plus les sections 1 et 2 du gabarit, `verdict: stop-secu`) pour que `store-recall` s'en souvienne, envoie-le avec `SendUserFile`, `trash` le clone en mode `remote`, et arrête-toi. Pas de temps 2, 3 ni 4 : le pourquoi d'une skill qui vole n'intéresse personne.
+Puis, dans l'ordre : écris le rapport minimal (frontmatter plus les sections 1, 2 et 8 du gabarit, `verdict: stop-secu`) pour que `store-recall` s'en souvienne, envoie-le avec `SendUserFile`, `trash` le clone en mode `remote`, et arrête-toi. Pas de temps 2, 3 ni 4 : le pourquoi d'une skill qui vole n'intéresse personne.
 
 ## Temps 2 : le pourquoi et le comment
 
@@ -115,7 +119,7 @@ Ajoute le mécanisme réel en cinq à huit puces, en nommant la technique employ
 
 Trois questions, chacune avec `fichier:ligne` obligatoire.
 
-**La description promet, le corps tient-il ?** Les promesses sont les affirmations vérifiables de la description, plus les garanties explicites du corps (« always », « never », « safe », « nothing to set up »). Entre quatre et huit, numérotées, chacune formulée de façon à pouvoir être fausse ; dis combien tu en as retenu. Pour chacune : `tient`, `ne tient pas` (avec ce qui est réellement vrai) ou `invérifiable` (avec ce qui manque pour trancher).
+**La description promet, le corps tient-il ?** Les promesses sont les affirmations vérifiables de la description, plus les garanties explicites du corps (« always », « never », « safe », « nothing to set up »). Vise quatre à huit, numérotées, chacune formulée de façon à pouvoir être fausse ; si la description en porte davantage de plein droit, garde-les toutes plutôt que de les fusionner, et dis combien tu en as retenu. Pour chacune : `tient`, `ne tient pas` (avec ce qui est réellement vrai) ou `invérifiable` (avec ce qui manque pour trancher).
 
 **Ce qu'elle nomme existe-t-il ?** Chaque script, fichier de référence, outil Claude Code, commande, flag, endpoint ou champ d'API cité dans les instructions. Les chemins se vérifient dans le clone, les outils et commandes contre ce que Claude Code a réellement, et **un fait au moins** contre la source de vérité du service : sa documentation officielle pour un service web, `man`, `--help` ou le binaire pour un outil local. Choisis le plus porteur (format du header d'authentification, endpoint, nom d'un champ, sous-commande) et cite la source lue. Si la documentation exige un compte que tu n'as pas, le fait est `invérifiable` et tu le dis. Les noms pourrissent en silence ; une instruction qui cite un outil mort est une instruction qui fera échouer la session.
 
@@ -130,7 +134,7 @@ Juge aussi la skill comme skill : la description dit-elle quand se déclencher, 
 **Déjà-vu local d'abord**, en excluant la cible elle-même quand elle est déjà chargée. Trois couches :
 
 - les skills chargées : la liste est déjà dans ton contexte, cherche-y le même domaine
-- les serveurs MCP branchés : les outils `mcp__<serveur>__*` de ton contexte, et pour ceux qui ne sont pas chargés dans cette session, `RTK_DISABLED=1 command claude mcp list` (quelques secondes, il teste la santé de chaque serveur)
+- les serveurs MCP branchés : lance `RTK_DISABLED=1 command claude mcp list` (quelques secondes, il teste la santé de chaque serveur, y compris ceux qui ne sont pas chargés dans cette session), et complète avec les outils `mcp__<serveur>__*` de ton contexte
 - le disque, pour ce qui n'est chargé nulle part :
 
 ```bash
@@ -157,7 +161,7 @@ Charge `references/template-rapport.md` et suis-le.
 
 - mode `remote` : `skill-<owner>-<repo>-<YYYY-MM-DD>.md` ; avec un sous-chemin, insère-le avant la date en remplaçant chaque `/` par un tiret : `skill-<owner>-<repo>-<chemin-avec-tirets>-<date>.md`
 - mode `local` : `skill-local-<nom-du-dossier>-<date>.md`, toujours, même si un remote a enrichi les métadonnées
-- si le fichier existe déjà pour aujourd'hui, suffixe `-2`, puis `-3`
+- si le fichier existe déjà pour aujourd'hui, suffixe `-2`, puis `-3` ; ne lis pas le rapport existant avant d'avoir conclu (il biaiserait ton verdict), mentionne-le en section 8 une fois le tien écrit
 
 Récupère les champs de session :
 
@@ -167,7 +171,7 @@ RTK_DISABLED=1 bash ~/.claude/skills/session-whoami/scripts/*.sh --json
 
 Ils se lisent dans `.identity.name`, `.identity.session_id`, `.identity.bridge_url`. Script absent : omets les trois champs, n'invente rien, ne signale pas d'erreur.
 
-Envoie le fichier avec `SendUserFile`, `display: "render"`, `status: "normal"`. Puis, hors arrêt de sécurité qui a déjà eu son message, présente le verdict en chat : trois lignes, le verdict, la condition qui le changerait.
+Envoie le fichier avec `SendUserFile`, `display: "render"`, `status: "normal"`. Outil absent dans cette session : dis où est le fichier et continue, ce n'est pas une erreur. Puis, hors arrêt de sécurité qui a déjà eu son message, présente le verdict en chat : trois lignes, le verdict, la condition qui le changerait.
 
 Nettoie, mode `remote` uniquement :
 
