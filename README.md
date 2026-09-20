@@ -1,6 +1,6 @@
 # erom-insight
 
-![erom-insight](assets/erom-insight.png)
+![erom-insight](plugin/assets/erom-insight.png)
 
 
 Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code.
