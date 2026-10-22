@@ -9,5 +9,5 @@
   "pluginSource": "erom-insight@inline",
   "stagedFixtures": null,
   "pass": false,
-  "why": "last line is not [REPORT] <path>; reparse: memoryWrites not checked (null), no claude run"
+  "why": "last line is not [REPORT] <path>; reparse: memoryWrites and report freshness not checked, no claude run"
 }
