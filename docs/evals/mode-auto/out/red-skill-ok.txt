@@ -4,9 +4,10 @@
   "reportPath": null,
   "reportExists": false,
   "forbiddenTools": [],
-  "memoryWrites": [],
-  "skillBaseDir": null,
-  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-K9cG2q/fixtures",
+  "memoryWrites": null,
+  "skillBaseDir": "/Users/recarnot/dev/erom-agence-insight/plugin/skills/skill-claude",
+  "pluginSource": "erom-insight@inline",
+  "stagedFixtures": null,
   "pass": false,
-  "why": "last line is not [REPORT] <path>; skillBaseDir not found in stream"
+  "why": "last line is not [REPORT] <path>; reparse: memoryWrites not checked (null), no claude run"
 }
