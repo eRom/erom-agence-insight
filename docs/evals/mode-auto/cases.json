@@ -44,6 +44,13 @@
     "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/local-harness-small-{date}(-\\d+)?\\.md" }
   },
   {
+    "id": "harness-remote",
+    "note": "Repo public choisi le 2026-10-22 : vercel-labs/deepsec (harnais de securite pilote par des agents de code), Apache-2.0, taille mesuree 1713 Ko, dossier docs/ avec 11 fichiers markdown (45 au total) : bas de la fourchette 10 a 45 de calibrage.md, donc un swarm de 2 a 5 lecteurs. Le rapport doit montrer agentSpawns >= 2, sinon la skill n'a pas lance de swarm (a signaler, pas un succes).",
+    "minAgentSpawns": 2,
+    "prompt": "/erom-insight:harness vercel-labs/deepsec --auto",
+    "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/vercel-labs-deepsec-{date}(-\\d+)?\\.md" }
+  },
+  {
     "id": "harness-404",
     "prompt": "/erom-insight:harness eRom/this-repo-does-not-exist-e2e --auto",
     "expect": { "kind": "ABORT" }

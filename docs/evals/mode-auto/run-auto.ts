@@ -2,6 +2,7 @@
 // Usage : bun docs/evals/mode-auto/run-auto.ts <caseId>
 //         bun docs/evals/mode-auto/run-auto.ts --reparse <caseId>  (rejuge out/<caseId>.jsonl sans lancer claude)
 //         bun docs/evals/mode-auto/run-auto.ts --selfcheck         (controle hors ligne de la fraicheur du rapport)
+//         bun docs/evals/mode-auto/run-auto.ts --installed <version> <caseId>  (juge le plugin installe depuis le marketplace, sans --plugin-dir)
 import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
@@ -17,6 +18,7 @@ const REPO_MEMORY = "/Users/recarnot/dev/erom-agence-insight/_memory_";
 // Autres lieux de memoire durable surveilles : playbook et CLAUDE.md globaux, puis memoire du cwd du worker.
 const GLOBAL_MEMORY_FILES = [`${CLAUDE_HOME}/erom-playbook.md`, `${CLAUDE_HOME}/CLAUDE.md`];
 const WORKER_MEMORY_PATHS = [`${WORKER_CWD}/_memory_`, `${WORKER_CWD}/.claude`, `${WORKER_CWD}/CLAUDE.md`];
+const INSTALLED_SOURCE = "erom-insight@erom-marketplace";
 const FORBIDDEN = new Set(["SendUserFile", "AskUserQuestion"]);
 // Plafond de securite : un run peut depasser 20 minutes, jamais moins de 45.
 const HARD_TIMEOUT_MS = 90 * 60 * 1000;
@@ -132,6 +134,17 @@ async function runFind(args: string[], errors: string[]): Promise<string[]> {
 
 async function main() {
   if (process.argv[2] === "--selfcheck") selfCheck();
+  // Option --installed <version> : retire du argv avant le reste du parsing positionnel.
+  let installedVersion: string | null = null;
+  const installedIdx = process.argv.indexOf("--installed");
+  if (installedIdx !== -1) {
+    installedVersion = process.argv[installedIdx + 1] ?? null;
+    if (!installedVersion || installedVersion.startsWith("--")) {
+      console.error("--installed needs a version, e.g. --installed 0.7.0");
+      process.exit(2);
+    }
+    process.argv.splice(installedIdx, 2);
+  }
   // Date du run, figee une fois avant tout lancement.
   const date = localDate();
   const reparse = process.argv[2] === "--reparse";
@@ -172,7 +185,9 @@ async function main() {
     const proc = Bun.spawn(
       [
         "claude", "-p",
-        "--plugin-dir", PLUGIN_DIR,
+        ...(installedVersion === null
+          ? ["--plugin-dir", PLUGIN_DIR]
+          : ["--settings", JSON.stringify({ enabledPlugins: { [INSTALLED_SOURCE]: true } })]),
         "--model", "sonnet",
         "--effort", "high",
         "--permission-mode", "auto",
@@ -261,6 +276,11 @@ async function main() {
   if (pluginCounts.length === 0) why.push("erom-insight not loaded");
   else if (pluginCounts.some((n) => n !== 1)) why.push(`init.plugins must list erom-insight exactly once, got ${pluginCounts.join("/")}`);
   else if (skillBaseDir === null) why.push("skill name not found in the prompt");
+  else if (installedVersion !== null) {
+    // Plugin installe : source du marketplace et chemin du cache a la version demandee.
+    if (pluginSource !== INSTALLED_SOURCE) why.push(`plugin source is ${pluginSource}, expected ${INSTALLED_SOURCE}`);
+    if (!skillBaseDir.includes(`/erom-insight/${installedVersion}/`)) why.push(`skillBaseDir outside /erom-insight/${installedVersion}/: ${skillBaseDir}`);
+  }
   else if (!skillBaseDir.startsWith(PLUGIN_PREFIX)) why.push(`skillBaseDir outside the repo plugin: ${skillBaseDir}`);
   if (finalResult === null) why.push("no final result message with a text result in stream");
   // Informatif : un cas qui attend un swarm signale l'absence de spawn sans l'echouer.

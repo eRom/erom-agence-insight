@@ -1,0 +1,15 @@
+{
+  "caseId": "harness-remote",
+  "lastLine": "[REPORT] /Users/recarnot/.claude/erom-store/insights/vercel-labs-deepsec-2026-10-22.md",
+  "reportPath": "/Users/recarnot/.claude/erom-store/insights/vercel-labs-deepsec-2026-10-22.md",
+  "reportExists": true,
+  "forbiddenTools": [],
+  "agentSpawns": 3,
+  "resultEvents": 6,
+  "memoryWrites": [],
+  "skillBaseDir": "/Users/recarnot/dev/erom-agence-insight/plugin/skills/harness",
+  "pluginSource": "erom-insight@inline",
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-11fCxO/fixtures",
+  "pass": true,
+  "why": "ok; claude exit code 0"
+}
