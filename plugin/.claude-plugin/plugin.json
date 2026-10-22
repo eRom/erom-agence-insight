@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
   "name": "erom-insight",
-  "description": "Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code. La skill harness cible les harnais et agents CLI (dsh, opencode, crush, goose) : swarm de lecteurs sur des facettes disjointes, réfutation des fausses trouvailles, rapport or/argent/bronze. La skill tool-claude cible les outils qui se branchent sur Claude Code : brochure confrontée au code claim par claim, coût d'installation chiffré, gestes repris mesurés sur le corpus local avant tout patch. La skill skill-claude juge une skill ou un plugin tiers avant installation : scanner de sécurité bloquant (exfiltration, exécution distante, caractères invisibles, injection), puis finalité, mécanisme, véracité et verdict installer / trash / refaire.",
-  "version": "0.6.0",
+  "description": "Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code. La skill harness cible les harnais et agents CLI (dsh, opencode, crush, goose) : swarm de lecteurs sur des facettes disjointes, réfutation des fausses trouvailles, rapport or/argent/bronze. La skill tool-claude cible les outils qui se branchent sur Claude Code : brochure confrontée au code claim par claim, coût d'installation chiffré, gestes repris mesurés sur le corpus local avant tout patch. La skill skill-claude juge une skill ou un plugin tiers avant installation : scanner de sécurité bloquant (exfiltration, exécution distante, caractères invisibles, injection), puis finalité, mécanisme, véracité et verdict installer / trash / refaire. Les trois skills acceptent --auto pour un appel headless : aucun arrêt, aucune écriture de mémoire, la dernière ligne vaut [REPORT] <chemin du rapport> ou [ABORT] <cause>.",
+  "version": "0.7.0",
   "author": {
     "name": "Romain Ecarnot",
     "url": "https://github.com/eRom"
@@ -22,7 +22,8 @@
     "claude-code",
     "skill",
     "plugin",
-    "securite"
+    "securite",
+    "headless"
   ],
   "skills": "./skills/",
   "agents": [
