@@ -75,6 +75,8 @@ En mode `local`, si le dossier a un remote GitHub, owner et repo en sont dériv�
 
 Les rapports sont écrits dans `~/.claude/erom-store/insights/`, puis envoyés en pièce lisible sur mobile.
 
+Lancement sans interlocuteur : ajouter `--auto` aux arguments, la dernière ligne est alors `[REPORT] <chemin>` ou `[ABORT] <cause>` (voir « Mode auto » dans `plugin/README.md`).
+
 ## Composants
 
 | Composant | Rôle |

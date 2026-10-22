@@ -75,6 +75,21 @@ En mode `local`, si le dossier a un remote GitHub, owner et repo en sont dériv�
 
 Les rapports sont écrits dans `~/.claude/erom-store/insights/`, puis envoyés en pièce lisible sur mobile.
 
+## Mode auto
+
+Pour un lancement sans personne en face : le token `--auto`, placé n'importe où dans les arguments (`/erom-insight:skill-claude <cible> --auto`, ou `--auto <cible>`), fait aller la skill de la requête au rapport sans jamais attendre une réponse. Le token est retiré avant le déroulé et ne fait jamais partie du focus d'intention. Sans `--auto`, rien ne change.
+
+Quatre règles, sans exception :
+
+- aucun arrêt qui attend une réponse, aucun `AskUserQuestion` ;
+- aucun `SendUserFile` ;
+- aucune écriture en mémoire durable (mémoire built-in, mémoire d'agent, playbook, `_memory_/`) ;
+- rien de la cible n'est jamais exécuté (règle qui vaut aussi hors mode auto).
+
+La dernière ligne non vide du dernier message est exactement `[REPORT] <chemin absolu>` quand un rapport a été écrit, ou `[ABORT] <cause en une phrase>` quand la skill ne peut pas aller au bout (cible introuvable, repo inexistant ou trop lourd, catalogue au lieu d'une skill). Rien ne vient après cette ligne.
+
+Usage visé : `erom-agence-backlog` lance ces skills sans Romain, par `claude -p`, et lit cette ligne finale pour savoir où est le rapport. Le banc `docs/evals/mode-auto/` rejoue les cas dans un vrai `claude -p`.
+
 ## Composants
 
 | Composant | Rôle |

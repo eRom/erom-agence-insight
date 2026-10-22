@@ -1,6 +1,6 @@
 # Conventions
 
-Mise à jour : 2026-08-23
+Mise à jour : 2026-10-22
 
 ## Structure d'un plugin eRom
 
@@ -54,6 +54,15 @@ Lire les cas perdus un par un est ce qui rend la mesure opposable. Rejouer les c
 Convention `<nom>.test.<ext>` à côté du fichier, sur le modèle de `~/.claude/scripts/guard-tools.test.sh`. Deux listes, jamais une seule : ce qui doit se déclencher, et les faux positifs relevés dans le corpus réel, recopiés à l'identique. Les assertions portent sur le comportement, jamais sur un compte figé ni sur le contenu du source testé.
 
 Un patch qui n'écrit rien doit avoir son invariant « n'écrit rien » dans la suite : contenu et liste du répertoire inchangés après exécution. Vérifié en plus hors suite sur le vrai corpus, par comparaison de `mtime`.
+
+## Mode auto
+
+Le mode `--auto` des trois skills a son banc dans `docs/evals/mode-auto/` : `cases.json` (un cas par scénario, dont `skill-remote` sur `petar-nauka/fact-check-skill`) et `run-auto.ts`, qui lance un vrai `claude -p` et juge la dernière ligne, le rapport, les outils interdits et les écritures mémoire. Rejeu : `bun docs/evals/mode-auto/run-auto.ts <caseId>` ; `--reparse <caseId>` rejuge un flux déjà enregistré sans relancer claude (il ne passe jamais, la fraîcheur du rapport et `memoryWrites` n'y sont pas vérifiables). Les sorties `out/*.txt` sont commitées comme preuves, les flux `out/*.jsonl` sont ignorés.
+
+Deux pièges relevés en le construisant :
+
+- **Les fixtures sont copiées hors dépôt avant chaque run.** `harness` et `tool-claude` dérivent `owner/repo` du remote git d'une cible locale ; les fixtures vivent dans un dépôt GitHub, donc sans copie le rapport porterait le nom du dépôt de travail au lieu de `local`.
+- **Le flux stream-json de `claude -p` ne porte pas le texte injecté de la skill.** `skillBaseDir` se lit donc dans le message `init` (champ `plugins`), pas dans le flux de messages ; c'est lui qui prouve que le run charge la skill du dépôt et non une copie installée.
 
 ## Rédaction
 

@@ -1,0 +1,11 @@
+--- worker tmp
+--- TMPDIR
+bfs: error: /var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/TemporaryItems: Operation not permitted.
+--- end (rien au-dessus = vide)
+--- complement: dossiers temporaires cites dans les flux
+absent /var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T//tmp.n4APw0iMUZ
+absent /tmp/skillscan.Vca1fN
+git clone --depth 1 https://github.com/petar-nauka/fact-check-skill.git \
+git clone --depth 1 https://github.com/petar-nauka/fact-check-skill.git \
+--- /tmp skill* newer
+--- lecture: les runs ont clone via mktemp (run1 sous $TMPDIR/tmp.n4APw0iMUZ, run2 sous /tmp/skillscan.Vca1fN) et non dans le scratchpad de session ; les deux dossiers sont absents apres coup. Les find du bloc 1 ne couvraient pas ces deux emplacements, d ou le complement.
