@@ -59,6 +59,14 @@ Un patch qui n'écrit rien doit avoir son invariant « n'écrit rien » dans la 
 
 Le mode `--auto` des trois skills a son banc dans `docs/evals/mode-auto/` : `cases.json` (un cas par scénario, dont `skill-remote` sur `petar-nauka/fact-check-skill`) et `run-auto.ts`, qui lance un vrai `claude -p` et juge la dernière ligne, le rapport, les outils interdits et les écritures mémoire. Rejeu : `bun docs/evals/mode-auto/run-auto.ts <caseId>` ; `--reparse <caseId>` rejuge un flux déjà enregistré sans relancer claude (il ne passe jamais, la fraîcheur du rapport et `memoryWrites` n'y sont pas vérifiables). Les sorties `out/*.txt` sont commitées comme preuves, les flux `out/*.jsonl` sont ignorés.
 
+Onze cas depuis la revue finale (2026-10-22). Deux sont nés d'un trou de la revue : `skill-nested` (cible sans `SKILL.md` à la racine mais avec une seule skill dessous, comme `SawyerHood/dev-browser` : le mode auto la reprend comme cible unique, 0 candidat donne `[ABORT]`, 2 ou plus restent un catalogue) et `harness-swarm` (fixture `harness-small`, calibrée pour que `calibrage.md` donne 2 à 3 lecteurs ; le JSON porte `agentSpawns` et `resultEvents`, informatifs, et le cas signale en note un swarm non lancé sans l'échouer). Le script sort en code 1 quand un cas échoue.
+
+Trois faits observés dans les flux des runs :
+
+- **`claude -p` n'a pas de scratchpad de session.** Les clones distants passent par le repli `mktemp -d`, et tout fichier de travail (clone, candidats de `tool-claude`, fichiers du réfutateur) vit dans ce dossier, à la corbeille avant la ligne finale.
+- **`claude -p` n'a ni `SendUserFile` ni `AskUserQuestion`.** `forbiddenTools` ne peut donc jamais se déclencher dans ce banc, et c'est le contrat `lastLine` qui porte la garantie « aucun arrêt qui attend une réponse ».
+- **Une task-notification tardive ouvre un nouveau tour**, et `--output-format json` rend le `result` du DERNIER tour : une ligne finale émise avant le retour d'un `insight-lecteur` ou de l'`insight-refutateur` peut être écrasée. Mécanisme et correctif du dépôt voisin : `/Users/recarnot/dev/erom-agence-deep-research/_memory_/gotchas.md`, section « `claude -p` : une task-notification tardive ouvre un nouveau tour » (commit 4934f3a). Les skills `harness` et `tool-claude` portent la même garde : pas de ligne finale ni de rapport tant qu'un agent lancé n'a pas rendu, et si un tour s'ouvre après la ligne finale, la réponse est cette même ligne seule.
+
 Deux pièges relevés en le construisant :
 
 - **Les fixtures sont copiées hors dépôt avant chaque run.** `harness` et `tool-claude` dérivent `owner/repo` du remote git d'une cible locale ; les fixtures vivent dans un dépôt GitHub, donc sans copie le rapport porterait le nom du dépôt de travail au lieu de `local`.
