@@ -70,7 +70,7 @@ En mode `local`, le dossier est la cible et son nom sert au rapport (`local/<nom
 - un `.claude-plugin/plugin.json` à sa racine : c'est **un plugin**. Liste ses composants réels, pas seulement ceux déclarés : `skills/`, `agents/`, `commands/`, `hooks/`, `.mcp.json`, `scripts/`, `settings.json`
 - ni l'un ni l'autre : liste les `SKILL.md` et `plugin.json` trouvés en dessous, dis qu'une cible est une skill ou un plugin, pas un catalogue, et **arrête-toi** pour que Romain en choisisse un
 
-En mode auto : ne liste pas pour qu'on choisisse, termine par `[ABORT] La cible est un catalogue de <N> skills ou plugins, pas une cible unique`, `<N>` étant le nombre de `SKILL.md` et `plugin.json` trouvés.
+En mode auto : ne liste pas pour qu'on choisisse. En mode `remote`, envoie d'abord le clone à la corbeille (et, s'il a été créé par `mktemp -d`, le dossier entier), puis termine par `[ABORT] La cible est un catalogue de <N> skills ou plugins, pas une cible unique`, `<N>` étant le nombre de `SKILL.md` et `plugin.json` trouvés.
 
 Le reste de `$ARGUMENTS` après le premier token est un focus d'intention. Reprends-le au temps 4.
 

@@ -88,8 +88,10 @@ D'où l'obligation de lire chaque script et chaque fichier de consignes en entie
 Dans l'ordre, sans rien intercaler :
 
 1. le message en chat, dans la forme exacte donnée par le `SKILL.md`
-2. le rapport minimal (frontmatter, sections 1 et 2 du gabarit, `verdict: stop-secu`, `secu: stop`), écrit dans le store et envoyé avec `SendUserFile`
+2. le rapport minimal (frontmatter, sections 1 et 2 du gabarit, `verdict: stop-secu`, `secu: stop`), écrit dans le store et envoyé avec `SendUserFile`  
+   En mode auto : pas de `SendUserFile`.
 3. `trash` du clone en mode `remote`, et des fichiers que tu as toi-même posés dans le scratchpad pour cette analyse (dumps, extraits), jamais le scratchpad entier
-4. fin
+4. fin  
+   En mode auto : le message `STOP SÉCURITÉ` du `SKILL.md` est le dernier message, et il se termine par la ligne `[REPORT] <chemin absolu du rapport minimal>`, après la corbeille du clone (dossier `mktemp -d` compris), dernière ligne non vide, rien après.
 
 Rien de la cible ne reste sur le disque après un arrêt, et rien de l'analyse ne continue « pour information ».
