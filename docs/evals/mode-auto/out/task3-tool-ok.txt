@@ -1,0 +1,13 @@
+{
+  "caseId": "tool-ok",
+  "lastLine": "[REPORT] /Users/recarnot/.claude/erom-store/insights/tool-local-tool-mini-2026-10-22.md",
+  "reportPath": "/Users/recarnot/.claude/erom-store/insights/tool-local-tool-mini-2026-10-22.md",
+  "reportExists": true,
+  "forbiddenTools": [],
+  "memoryWrites": [],
+  "skillBaseDir": "/Users/recarnot/dev/erom-agence-insight/plugin/skills/tool-claude",
+  "pluginSource": "erom-insight@inline",
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-8AEDet/fixtures",
+  "pass": true,
+  "why": "ok; claude exit code 0"
+}

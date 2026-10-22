@@ -1,0 +1,7 @@
+/Users/recarnot/.claude/quota.json
+/Users/recarnot/.claude/.env_cache
+/Users/recarnot/.claude/plugins/synced/3f63fb08-e883-46a0-98cc-4e837a7c4de7_e009cf65-0ea1-4cff-aa54-375a9ac481ea/manifest.json
+/Users/recarnot/.claude/plugins/synced/3f63fb08-e883-46a0-98cc-4e837a7c4de7_e009cf65-0ea1-4cff-aa54-375a9ac481ea/.last-complete-round
+/Users/recarnot/.claude/plugins/store/erom-progress_inline-2639f184bfe7.json
+/Users/recarnot/.claude/plugins/store/cc-plugin-you-should-know_builtin-19776595df2c.json
+/Users/recarnot/.claude/backups/.claude.json.backup.1792675529486
