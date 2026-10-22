@@ -72,7 +72,7 @@ Mode `remote`, cloner dans le scratchpad de la session (celui indiqué dans ton 
 git clone --depth 1 https://github.com/<owner>/<repo>.git "<scratchpad>/insight-<owner>-<repo>"
 ```
 
-En mode auto : clone dans le scratchpad de la session, sinon dans un dossier créé par `mktemp -d`.
+En mode auto : clone dans le scratchpad de la session ; s'il n'y en a pas, crée un dossier avec `mktemp -d` et clone dans `<dossier mktemp>/insight-<owner>-<repo>`, pour que le chemin habituel s'applique.
 
 Puis, dans les deux modes, lis toi-même. Ne délègue pas cette étape : les prompts des lecteurs se calibrent sur la structure réelle.
 
@@ -121,7 +121,7 @@ Dix lignes maximum, puis tu attends.
 
 Ne spawne rien avant sa réponse. Cet arrêt est placé juste avant la dépense, c'est tout son intérêt. S'il corrige l'intention, réassigne les chemins de départ en conséquence avant de continuer.
 
-En mode auto : n'attends pas. Écris ces dix lignes en tête de la section « couverture et limites » du rapport, avec la mention « plan réputé validé (mode auto) », puis enchaîne directement sur le temps 4.
+En mode auto : n'attends pas. Retiens ces dix lignes : au temps 6, à l'écriture du rapport, place-les en tête de la section « couverture et limites », avec la mention « plan réputé validé (mode auto) ». Enchaîne directement sur le temps 4.
 
 ## Temps 4 : le swarm
 
@@ -201,6 +201,8 @@ trash "<scratchpad>/insight-<owner>-<repo>"
 ```
 
 Jamais `rm`, `rmdir` ni `unlink`.
+
+En mode auto, si le clone vit dans un dossier créé par `mktemp -d`, envoie ce dossier entier à la corbeille.
 
 Balaie ensuite le reste du scratchpad de la session. Le réfutateur a Bash et laisse ses propres fichiers de travail derrière lui : lors du rejeu de référence, 45 Mo d'extraction de chaînes du binaire. Vérifie ce qui traîne et envoie-le à la corbeille aussi.
 
