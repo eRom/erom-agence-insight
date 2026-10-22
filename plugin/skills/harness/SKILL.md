@@ -11,6 +11,19 @@ $ARGUMENTS
 
 Les fichiers de référence cités ci-dessous vivent dans `references/`, relatif au « Base directory for this skill » injecté au dessus. Charge-les au moment où le déroulé le dit, pas avant.
 
+## Mode auto
+
+Activation : le token `--auto` présent n'importe où dans `$ARGUMENTS`, même en premier. Retire-le avant l'étape 0 : la cible est alors le premier token qui reste, et `--auto` ne fait jamais partie du focus d'intention. Sans `--auto`, rien ne change dans ce déroulé.
+
+En mode auto, personne ne répond : le run va de la requête au rapport sans interlocuteur. Quatre règles, sans exception :
+
+- aucun arrêt qui attend une réponse, aucun `AskUserQuestion` ;
+- aucun `SendUserFile` ;
+- aucune écriture en mémoire durable : ni la mémoire built-in, ni la mémoire d'agent, ni le playbook, ni `_memory_/` ;
+- rien de la cible n'est jamais exécuté (cette règle vaut déjà hors mode auto).
+
+Les points du déroulé qui dévient portent leur propre phrase « En mode auto : ... ». Ligne finale : la dernière ligne non vide du dernier message est exactement `[REPORT] <chemin absolu du rapport>` ou `[ABORT] <cause en une phrase>`, et rien ne vient après. Tout abandon en mode auto se termine par cette ligne, après le nettoyage du clone si un clone a été fait.
+
 ## Étape 0 : résoudre le mode
 
 Un seul appel Bash. Le premier token de `$ARGUMENTS` décide.
@@ -24,6 +37,8 @@ Un seul appel Bash. Le premier token de `$ARGUMENTS` décide.
 En mode `local`, tenter `git -C <chemin> remote get-url origin`. Si le remote pointe sur GitHub, en dériver `owner/repo` et enrichir depuis l'API comme en mode `remote`. Sinon `owner` vaut `local` et `repo` vaut le nom du dossier.
 
 Le reste de `$ARGUMENTS` après le premier token, s'il y en a, est un focus d'intention : reprends-le au temps 3.
+
+En mode auto : si rien ne résout, ne demande rien et termine par `[ABORT] Cible introuvable : <token>`.
 
 ## Temps 1 : vérifier que ça existe
 
@@ -42,7 +57,9 @@ Sortie réelle observée sur le repo de référence, pour calibrer ta lecture :
 Trois règles, sans exception :
 
 - **Sur 404**, lance `RTK_DISABLED=1 command gh api user`. S'il répond, le jeton est valide, donc le repo est inexistant ou privé sans accès. Dis lequel des deux tu ne peux pas trancher, et **arrête-toi**. N'enchaîne jamais sur un clone. C'est le geste qui justifie cette skill : un swarm sur un repo fantôme brûle du quota pour rien.
+  En mode auto : termine par `[ABORT] Repo inexistant ou privé sans accès : <owner/repo>`.
 - **`size_ko` au dessus de 500000**, soit 500 Mo : annonce le volume et demande avant de cloner. Repère utile, le repo de référence pèse 117 Mo, donc passe largement.
+  En mode auto : ne demande pas, termine par `[ABORT] Repo trop lourd pour un run sans Romain : <N> Mo`.
 - **`archived` vrai** : signale-le au temps 3 et redis-le dans les limites du rapport. Un repo archivé se pille quand même, mais rien n'y bougera plus.
 
 Mode `local` : vérifie que le chemin existe, mesure sa taille, et enrichis depuis GitHub si un remote a été trouvé à l'étape 0.
@@ -54,6 +71,8 @@ Mode `remote`, cloner dans le scratchpad de la session (celui indiqué dans ton 
 ```bash
 git clone --depth 1 https://github.com/<owner>/<repo>.git "<scratchpad>/insight-<owner>-<repo>"
 ```
+
+En mode auto : clone dans le scratchpad de la session, sinon dans un dossier créé par `mktemp -d`.
 
 Puis, dans les deux modes, lis toi-même. Ne délègue pas cette étape : les prompts des lecteurs se calibrent sur la structure réelle.
 
@@ -101,6 +120,8 @@ Dix lignes maximum, puis tu attends.
 - le plan : N lecteurs, une ligne par facette
 
 Ne spawne rien avant sa réponse. Cet arrêt est placé juste avant la dépense, c'est tout son intérêt. S'il corrige l'intention, réassigne les chemins de départ en conséquence avant de continuer.
+
+En mode auto : n'attends pas. Écris ces dix lignes en tête de la section « couverture et limites » du rapport, avec la mention « plan réputé validé (mode auto) », puis enchaîne directement sur le temps 4.
 
 ## Temps 4 : le swarm
 
@@ -165,7 +186,11 @@ Ils se lisent dans `.identity.name`, `.identity.session_id`, `.identity.bridge_u
 
 Envoie ensuite le fichier avec `SendUserFile`, `display: "render"`, `status: "normal"`.
 
+En mode auto : saute cet envoi.
+
 Grave enfin les conclusions durables en mémoire, sous le régime en vigueur : une ligne `Battu :` nommant les alternatives écartées, un `status` daté en frontmatter.
+
+En mode auto : saute cette gravure, et ne la remplace par rien.
 
 ## Temps 7 : nettoyer
 
@@ -180,3 +205,5 @@ Jamais `rm`, `rmdir` ni `unlink`.
 Balaie ensuite le reste du scratchpad de la session. Le réfutateur a Bash et laisse ses propres fichiers de travail derrière lui : lors du rejeu de référence, 45 Mo d'extraction de chaînes du binaire. Vérifie ce qui traîne et envoie-le à la corbeille aussi.
 
 Mode `local` : ne supprime rien, n'écris rien dans le dossier cible. Il t'a été prêté en lecture.
+
+En mode auto : le nettoyage ci-dessus s'exécute quand même, puis le message se termine par `[REPORT] <chemin absolu du rapport>`, dernière ligne non vide, rien après.
