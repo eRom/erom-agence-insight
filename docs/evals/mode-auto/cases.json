@@ -1,0 +1,42 @@
+[
+  {
+    "id": "skill-ok",
+    "prompt": "/erom-insight:skill-claude {fixtures}/skill-saine --auto",
+    "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/skill-local-skill-saine-{date}(-\\d+)?\\.md" }
+  },
+  {
+    "id": "skill-trap",
+    "prompt": "/erom-insight:skill-claude {fixtures}/skill-piegee --auto",
+    "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/skill-local-skill-piegee-{date}(-\\d+)?\\.md", "frontmatter": "verdict: stop-secu" }
+  },
+  {
+    "id": "skill-catalog",
+    "prompt": "/erom-insight:skill-claude {fixtures} --auto",
+    "expect": { "kind": "ABORT" }
+  },
+  {
+    "id": "tool-ok",
+    "prompt": "/erom-insight:tool-claude {fixtures}/tool-mini --auto",
+    "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/tool-local-tool-mini-{date}(-\\d+)?\\.md" }
+  },
+  {
+    "id": "harness-ok",
+    "prompt": "/erom-insight:harness {fixtures}/harness-mini --auto",
+    "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/local-harness-mini-{date}(-\\d+)?\\.md" }
+  },
+  {
+    "id": "harness-404",
+    "prompt": "/erom-insight:harness eRom/this-repo-does-not-exist-e2e --auto",
+    "expect": { "kind": "ABORT" }
+  },
+  {
+    "id": "auto-first",
+    "prompt": "/erom-insight:skill-claude --auto {fixtures}/skill-saine",
+    "expect": { "kind": "REPORT", "reportPattern": "/Users/recarnot/\\.claude/erom-store/insights/skill-local-skill-saine-{date}(-\\d+)?\\.md" }
+  },
+  {
+    "id": "interactive",
+    "prompt": "/erom-insight:skill-claude {fixtures}/skill-saine",
+    "expect": { "kind": "NONE" }
+  }
+]

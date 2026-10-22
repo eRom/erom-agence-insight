@@ -1,0 +1,12 @@
+{
+  "caseId": "harness-404",
+  "lastLine": "**Si tu visais un vrai repo, quel slug `owner/repo` ou quelle URL GitHub dois-je analyser ?**",
+  "reportPath": null,
+  "reportExists": false,
+  "forbiddenTools": [],
+  "memoryWrites": [],
+  "skillBaseDir": null,
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-eVS1XH/fixtures",
+  "pass": false,
+  "why": "last line is not [ABORT] <cause>; skillBaseDir not found in stream"
+}

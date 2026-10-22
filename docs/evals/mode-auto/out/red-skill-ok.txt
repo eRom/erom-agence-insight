@@ -1,0 +1,12 @@
+{
+  "caseId": "skill-ok",
+  "lastLine": "**Garde-t-on le `trash` ou installes-tu `skill-saine` pour le déclencheur fixe ? `trash` ou `installer`**",
+  "reportPath": null,
+  "reportExists": false,
+  "forbiddenTools": [],
+  "memoryWrites": [],
+  "skillBaseDir": null,
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-K9cG2q/fixtures",
+  "pass": false,
+  "why": "last line is not [REPORT] <path>; skillBaseDir not found in stream"
+}
