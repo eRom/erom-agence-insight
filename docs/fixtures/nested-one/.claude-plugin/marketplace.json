@@ -1,0 +1,5 @@
+{
+  "name": "nested-one",
+  "owner": { "name": "fixture" },
+  "plugins": []
+}

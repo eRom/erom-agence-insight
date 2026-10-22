@@ -1,0 +1,15 @@
+{
+  "caseId": "harness-404",
+  "lastLine": "[ABORT] Repo inexistant ou privé sans accès : eRom/this-repo-does-not-exist-e2e",
+  "reportPath": null,
+  "reportExists": false,
+  "forbiddenTools": [],
+  "agentSpawns": 0,
+  "resultEvents": 1,
+  "memoryWrites": [],
+  "skillBaseDir": "/Users/recarnot/dev/erom-agence-insight/plugin/skills/harness",
+  "pluginSource": "erom-insight@inline",
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-sCL65A/fixtures",
+  "pass": true,
+  "why": "ok; claude exit code 0"
+}

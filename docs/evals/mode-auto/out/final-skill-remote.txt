@@ -1,0 +1,15 @@
+{
+  "caseId": "skill-remote",
+  "lastLine": "[REPORT] /Users/recarnot/.claude/erom-store/insights/skill-petar-nauka-fact-check-skill-2026-10-22-4.md",
+  "reportPath": "/Users/recarnot/.claude/erom-store/insights/skill-petar-nauka-fact-check-skill-2026-10-22-4.md",
+  "reportExists": true,
+  "forbiddenTools": [],
+  "agentSpawns": 0,
+  "resultEvents": 1,
+  "memoryWrites": [],
+  "skillBaseDir": "/Users/recarnot/dev/erom-agence-insight/plugin/skills/skill-claude",
+  "pluginSource": "erom-insight@inline",
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-ODofym/fixtures",
+  "pass": true,
+  "why": "ok; claude exit code 0"
+}
