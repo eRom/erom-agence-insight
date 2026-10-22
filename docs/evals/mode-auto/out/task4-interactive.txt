@@ -1,0 +1,13 @@
+{
+  "caseId": "interactive",
+  "lastLine": "Rapport : `/Users/recarnot/.claude/erom-store/insights/skill-local-skill-saine-2026-10-22-4.md`",
+  "reportPath": null,
+  "reportExists": false,
+  "forbiddenTools": [],
+  "memoryWrites": [],
+  "skillBaseDir": "/Users/recarnot/dev/erom-agence-insight/plugin/skills/skill-claude",
+  "pluginSource": "erom-insight@inline",
+  "stagedFixtures": "/private/var/folders/tn/47tsq9ys0bq8cn8mt0j651ww0000gn/T/erom-insight-auto-2gGTNx/fixtures",
+  "pass": true,
+  "why": "ok; claude exit code 0"
+}
