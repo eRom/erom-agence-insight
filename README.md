@@ -3,7 +3,7 @@
 ![erom-insight](plugin/assets/erom-insight.png)
 
 
-Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code.
+Explore un repo GitHub tiers : en extrait ce qui vaut d'être repris dans une config Claude Code, ou en fait la fiche d'identité.
 
 Quatre skills, quatre questions différentes.
 
