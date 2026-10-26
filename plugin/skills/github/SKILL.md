@@ -29,7 +29,7 @@ Lance le script, une fois, dans le scratchpad de session (en mode auto sans scra
 RTK_DISABLED=1 command python3 "<base>/scripts/fetch-repo.py" "<cible>" "<scratchpad>/github-<owner>-<repo>"
 ```
 
-Codes de sortie : `0` il imprime le chemin de `facts.json` ; `2` repo introuvable ou privé sans accès, dis-le et arrête-toi (`[ABORT] Repo introuvable : <owner/repo>`) ; `1` `gh` absent ou en échec, recopie son message et arrête-toi.
+Codes de sortie : `0` il imprime le chemin de `facts.json` ; `2` repo introuvable ou privé sans accès, dis-le et arrête-toi (`[ABORT] Repo introuvable : <owner/repo>`) ; `1` `gh` absent ou en échec, recopie son message et arrête-toi (`[ABORT] gh en échec : <message en une phrase>`). En mode auto, tout arrêt de ce temps se termine par sa ligne `[ABORT]`, après la mise à la corbeille du dossier `mktemp -d` s'il en a été créé un.
 
 Il ne clone rien et ne lit pas le code. Il écrit dans le dossier de sortie :
 
