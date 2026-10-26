@@ -18,6 +18,8 @@ Format des nombres : les entiers se recopient tels quels depuis `facts.json` ; s
 
 Règle du `type` : le livrable principal que l'on installe ou consomme, pas le langage. Un repo qui mêle plusieurs livrables prend le plus central, et les autres vont dans `secondary_types`. `autre` exige une phrase de justification dans la section 3.
 
+Pas d'avatar, ni dans le corps ni dans le frontmatter, et aucun HTML brut : le lecteur du backlog échappe le HTML et sa CSP bloque les images externes, la balise s'afficherait en texte.
+
 Règle du `status` : une fiche neuve naît `nouveau`. Ensuite, seul Romain le change.
 
 ## Le fichier
@@ -45,7 +47,7 @@ skill: erom-insight:github
 
 # <owner/name>
 
-<img src="<owner_avatar>" width="48" alt="<owner>"> **<owner>** (<Utilisateur|Organisation>) · [repo](<url>) · <homepage ou « pas de site »>
+**<owner>** (<Utilisateur|Organisation>) · [repo](<url>) · <homepage ou « pas de site »>
 
 > <verdict en une ligne, la même que la section 6>
 
@@ -130,5 +132,5 @@ skill: erom-insight:github
 <vide à la création ; recopié tel quel lors d'une mise à jour>
 
 ---
-<sub>Faits tirés de l'API GitHub le <fetched_at>. Arbre : <files> fichiers (ajouter « liste tronquée par l'API » si `tree.truncated` vaut true). Manifestes lus : <liste ou « aucun »>.</sub>
+*Faits tirés de l'API GitHub le <fetched_at>. Arbre : <files> fichiers (ajouter « liste tronquée par l'API » si `tree.truncated` vaut true). Manifestes lus : <liste ou « aucun »>.*
 ~~~
