@@ -1,6 +1,6 @@
 # Pièges
 
-Mise à jour : 2026-09-19
+Mise à jour : 2026-10-26
 
 ## Publication
 
@@ -9,6 +9,21 @@ Mise à jour : 2026-09-19
 **Correction du 2026-09-19 : la re-correction de `bc4fbc1` était partielle.** Ce grep rendait déjà 1 sur `bc4fbc1` même : seule l'entrée erom-insight avait été corrigée, l'entrée **erom-research** citait encore `~/.claude/erom-plugin-artefacts/researchs/`, mort du 2026-08-20 au 2026-09-19 sur 17 releases d'affilée. Corrigé par Romain dans la marketplace `8297488`. Le filet est désormais mécanique : `preflight.py` de la skill `/erom-dev-plugin:release` (repo `~/dev/erom-agence-dev-plugin`) lit les descriptions de **toutes** les entrées et sort en code 3 sur un chemin `~/` dont le préfixe fixe n'existe pas ; suite `preflight.test.py` à côté (15 cas). Rejoué sur l'historique : 22 releases sur 45 signalées, 0 faux positif (rapport `~/.claude/erom-store/insights/tool-Tencent-WeKnora-2026-09-19.md`). Re-vérifier : `uv run --no-project python ~/dev/erom-agence-dev-plugin/plugin/skills/release/scripts/preflight.test.py`. **Battu :** un grep manuel par nom de dossier (ne voit que l'ancien nom qu'on pense à chercher, et n'a pas été relancé) ; la CI `validate.yml` de la marketplace (le runner GitHub ne voit pas le disque du Mac) ; le contrôle du corps des skills façon WeKnora `skillparity` (mesuré : 0 référence morte sur 16 commits d'erom-insight, pas de besoin).
 
 **Publier ne rend pas la skill utilisable en local.** Au 2026-08-16, après la release 0.4.0, `erom-insight@erom-marketplace` valait `false` dans `enabledPlugins` de `~/.claude/settings.json`, le cache s'arrêtait à `0.3.0`, et `installed_plugins.json` n'avait qu'un enregistrement de scope `user` sur cette même version. Deux gestes séparés restent nécessaires après un push : `claude plugin update erom-insight@erom-marketplace`, puis l'activation via `/plugin`.
+
+## Store et index
+
+**`~/.claude/erom-store/INDEX.md` est généré, une édition à la main meurt la nuit.** Générateur : `~/dev/erom-agence-store-factory/scripts/build-index.ts` + `scripts/lib/catalog.ts`, appelé par `nightly-push.sh` (l.23). Le bloc `## Github repository (N)` avait été ajouté à la main le 2026-10-26 ; il a fallu une rubrique `github-repos` dans `catalog.ts` (commit `13f54c4`, test dans `build-index.test.ts`). Toute nouvelle rubrique du store passe par là.
+
+**Le lecteur de la page backlog échappe le HTML brut d'un rapport et sa CSP n'autorise que `img-src 'self'`.** Une balise `<img>` (avatar) et un pied de page `<sub>` s'affichaient en texte littéral (job 4, fiche `apple-security-pcc.md`). Aucun HTML brut dans un livrable du store lu par le backlog. Corrigé en 0.8.1. `[candidat 1x - relayé par la session erom-agence-backlog le 2026-10-26]`
+
+## API GitHub (skill `github`)
+
+Vérifiés au premier run sur `apple/security-pcc` et `morluto/rea` le 2026-10-26 :
+- `watchers_count` vaut le nombre d'étoiles ; le vrai nombre d'abonnés est `subscribers_count`.
+- `open_issues_count` inclut les PR ouvertes ; les issues seules se comptent par `search/issues?q=repo:<slug>+type:issue+state:open`.
+- `/releases/latest` répond 404 sans release ; repli sur `/tags`.
+- `license.spdx_id` peut valoir `NOASSERTION` (licence maison, cas `security-pcc`) : normalisé en `non-reconnue`.
+- Un compte de liste en un appel : `?per_page=1` puis la page `rel="last"` de l'en-tête `Link` (`gh api -i`).
 
 ## Outillage plugin
 

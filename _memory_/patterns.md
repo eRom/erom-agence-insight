@@ -1,6 +1,6 @@
 # Conventions
 
-Mise à jour : 2026-10-22
+Mise à jour : 2026-10-26
 
 ## Structure d'un plugin eRom
 
@@ -81,6 +81,8 @@ Aucun tiret cadratin nulle part : un hook `guard-emdash` bloque tout Edit ou Wri
 ## Tester une skill avant de la livrer
 
 Méthode skill-creator, appliquée à `skill-claude` le 2026-08-23 : les cas d'éval vivent dans `docs/evals/<skill>/evals.json` (prompts réalistes, résultat attendu), l'espace de travail dans le scratchpad de session (`<scratchpad>/<skill>-workspace/iteration-N/<cas>/{with_skill,without_skill}/`), jamais dans `plugin/`. Chaque cas est joué par un subagent `opus` avec la skill (« Base directory for this skill » et `$ARGUMENTS` reproduits dans le prompt, scratchpad et dossier de sortie imposés, consigne de ne poser aucune question) et un autre sans. Le subagent écrit aussi un `journal.md` de frictions : c'est lui qui a produit la quasi-totalité des correctifs, bien plus que les assertions. Les assertions se notent à la main sur preuves (grep, md5, listes de commandes), jamais sur la parole du subagent. Les baselines sans skill se réutilisent d'une itération à l'autre. La note d'acceptation (`docs/acceptation-<date>-<skill>.md`) porte les AC avec leur preuve, le benchmark et les limites du test.
+
+Variante légère, appliquée à `github` le 2026-10-26 : pas de baseline, des agents frais (Sonnet, effort high) suivent le `SKILL.md` en `--auto` sur des repos réels, avec consigne d'ajouter une section « Retour sur la skill » avant la ligne `[REPORT]`. Deux runs ont remonté 19 frictions, dont 9 corrigées (type `code-de-reference` manquant, `NOASSERTION`, sources des plateformes, chiffres qui détonnent) ; un troisième run a vérifié la mise à jour d'une fiche existante avec un `status` et une note témoins, contrôlés au grep. Les chiffres de la fiche se vérifient contre `facts.json`, jamais sur la parole de l'agent.
 
 ## Documents de décision
 

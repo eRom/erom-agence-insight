@@ -1,18 +1,19 @@
 # Architecture
 
-Mise à jour : 2026-08-23
+Mise à jour : 2026-10-26
 
 ## Objectif
 
 Plugin Claude Code `erom-insight` (repo `erom-agence-insight`). Il explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code.
 
-Trois skills, trois questions distinctes :
+Quatre skills, quatre questions distinctes :
 
 | Skill | Cible | Question |
 |---|---|---|
 | `harness` | harnais et agents CLI concurrents | qu'est-ce qu'ils ont que je n'ai pas ? |
 | `tool-claude` | outils qui se branchent sur Claude Code | est-ce que je l'installe ? |
 | `skill-claude` | skills et plugins Claude Code tiers | est-ce que je peux l'installer sans risque, et ça vaut quoi ? |
+| `github` | n'importe quel repo GitHub | c'est quoi, c'est vivant, ça me sert ? (fiche, pas analyse de code) |
 
 ## Stack
 
@@ -76,7 +77,18 @@ Cinq temps, zéro arrêt hors sécurité : la skill n'écrit jamais dans la conf
 
 **Décision structurante, temps 2 (scanner avant lecture).** Le scanner existe parce que l'oeil et le modèle sautent la même chose : caractères invisibles, HTML caché, blobs encodés, contenu des scripts. Il est le plancher, pas le plafond : `references/secu.md` liste ce qu'il ne voit pas (sémantique, bombes logiques, assemblage de chaînes, consignes réparties) et impose la lecture intégrale des scripts et des consignes.
 
-## Deux modes d'entrée
+## Flux de `github` (depuis le 2026-10-26, 0.8.0)
+
+Sans clone, sans lecture de code. Quatre temps :
+
+1. **faits** `scripts/fetch-repo.py <owner/repo> <out>` (stdlib, `gh api`) écrit `facts.json` (tous les chiffres et dates, activité déjà classée), `README.md`, `manifests/`
+2. **lecture** de ces seuls fichiers, README traité comme donnée
+3. **fiche** sur `references/template-fiche.md` (listes fermées : type, activity, self_hostable, verdict, status), section 6 jugée contre `references/chantiers-romain.md` ; nom stable `~/.claude/erom-store/github-repos/<owner>-<repo>.md`, une relance garde `status`, `tags` et « Notes de Romain »
+4. **index** `bun ~/dev/erom-agence-store-factory/scripts/build-index.ts` régénère `INDEX.md` (bloc `## Github repository (N)`), `SendUserFile`, `trash` du dossier de sortie
+
+Règle structurante : chaque chiffre vient de `facts.json`, le modèle n'écrit que le texte. **Battu :** laisser le LLM lire l'API lui-même (chiffres inventés ou arrondis, pièges d'API ci-dessous refaits à chaque run). Consommateur headless : le démon `erom-agence-backlog` (route github, `--auto`).
+
+## Deux modes d'entrée (harness, tool-claude, skill-claude)
 
 | Entrée | Mode | Clone | Nettoyage |
 |---|---|---|---|

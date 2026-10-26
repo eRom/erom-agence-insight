@@ -1,6 +1,6 @@
 # Fichiers clés
 
-Mise à jour : 2026-08-23
+Mise à jour : 2026-10-26
 
 ## Plugin publiable
 
@@ -21,6 +21,11 @@ Mise à jour : 2026-08-23
 | `plugin/skills/skill-claude/references/template-rapport.md` | frontmatter et les 8 sections imposées, `verdict` à 4 valeurs dont `stop-secu` |
 | `plugin/skills/skill-claude/scripts/secu-scan.py` | le scanner : inventaire, surfaces déclarées (frontmatter, hooks, MCP, plugin.json), hôtes, motifs en 3 niveaux et une vingtaine de familles |
 | `plugin/skills/skill-claude/scripts/secu-scan.test.py` | la suite de cas du scanner : ce qui doit se déclencher, les faux positifs réels (Linear, erom-insight, skill-creator), l'invariant « n'écrit rien » |
+| `plugin/skills/github/SKILL.md` | fiche d'un repo GitHub en quatre temps, mode auto, règle « chiffres de facts.json seulement » |
+| `plugin/skills/github/references/template-fiche.md` | gabarit de fiche, listes fermées, format des nombres, interdiction d'avatar et de HTML brut |
+| `plugin/skills/github/references/chantiers-romain.md` | grille de pertinence de la section 6, à tenir à jour à la main |
+| `plugin/skills/github/scripts/fetch-repo.py` | faits d'un repo via `gh api`, sans clone ; codes 0 / 2 (introuvable) / 1 (gh) |
+| `plugin/skills/github/scripts/fetch-repo.test.py` | cas des fonctions pures (cible, Link, seuils, licence, marqueurs, manifestes), sans réseau |
 | `plugin/agents/insight-lecteur.md` | lecteur d'une facette ou d'une zone, `tools: Read, Grep, Glob` seulement, livrable en 4 sections |
 | `plugin/agents/insight-refutateur.md` | détruit les affirmations de manque, charge de la preuve à sa charge, utilisé par `harness` seul |
 | `plugin/README.md` | présentation des deux skills, deux modes, composants |
@@ -46,6 +51,8 @@ Mise à jour : 2026-08-23
 `~/.claude/erom-store/insights/tool-<owner>-<repo>-<YYYY-MM-DD>.md` : les rapports de `tool-claude`. Le préfixe `tool-` est ce qui les distingue, il n'a pas suivi le renommage de la skill en `tool-claude`.
 
 `~/.claude/erom-store/insights/skill-<owner>-<repo>[-<chemin-en-tirets>]-<YYYY-MM-DD>.md` : les rapports de `skill-claude` ; `skill-local-<dossier>-<date>.md` en mode local sans remote.
+
+`~/.claude/erom-store/github-repos/<owner>-<repo>.md` : les fiches de `github`, nom sans date, réécrites à chaque relance. Indexées par `~/dev/erom-agence-store-factory/scripts/lib/catalog.ts` (rubrique `github-repos`, colonnes Date, Fichier, Auteur = `owner`, Sujet = `description`).
 
 ## Contrat entre composants
 
