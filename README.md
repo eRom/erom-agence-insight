@@ -5,13 +5,14 @@
 
 Explore un repo GitHub tiers et en extrait ce qui vaut d'être repris dans une config Claude Code.
 
-Trois skills, trois questions différentes.
+Quatre skills, quatre questions différentes.
 
 | Skill | Cible | Question à laquelle elle répond |
 |---|---|---|
 | `harness` | harnais et agents CLI concurrents (dsh, opencode, crush, goose) | qu'est-ce qu'ils ont que je n'ai pas ? |
 | `tool-claude` | outils qui se branchent sur Claude Code (indexeur, MCP, optimiseur de contexte) | est-ce que je l'installe ? |
 | `skill-claude` | skills et plugins Claude Code tiers | est-ce que je peux l'installer sans risque, et est-ce que ça vaut le coup ? |
+| `github` | n'importe quel repo GitHub | c'est quoi, c'est vivant, et est-ce que ça me sert ? |
 
 ## `harness` : piller un concurrent
 
@@ -63,7 +64,17 @@ Cinq temps. La sécurité passe en premier, et si elle ne passe pas, tout s'arr�
 
 La skill n'installe jamais rien et n'exécute jamais rien de la cible. Le scanner a sa suite de cas à côté de lui (`scripts/secu-scan.test.py`, deux listes : ce qui doit se déclencher, et les faux positifs relevés dans des skills réelles).
 
-## Deux modes d'entrée, pour les trois skills
+## `github` : ficher un repo
+
+```
+/erom-insight:github <owner/repo | url GitHub>
+```
+
+Une fiche d'identité, pas une analyse de code : rien n'est cloné. Un script (`scripts/fetch-repo.py`, stdlib, `gh api`) sort les faits : identité, release, langages, étoiles, abonnés, issues et PR ouvertes, contributeurs, commits sur 90 et 365 jours, activité classée par seuils (actif à 30 j, ralenti à 180 j, abandonné au-delà), marqueurs CI, tests, docs et Docker lus dans l'arbre des fichiers, plus le README et les manifestes. Le modèle n'écrit que le texte : présentation, type pris dans une liste fermée, usage, auto-hébergement et verdict (`a-tester`, `a-suivre`, `pas-pertinent`).
+
+Une fiche par repo, au nom stable `~/.claude/erom-store/github-repos/<owner>-<repo>.md` : une relance la met à jour et garde `status`, `tags` et les notes de Romain. L'index du store est régénéré dans la foulée (bloc `## Github repository (N)`).
+
+## Deux modes d'entrée, pour les trois skills d'analyse
 
 | Entrée | Mode | Clone | Nettoyage |
 |---|---|---|---|
@@ -84,6 +95,8 @@ Lancement sans interlocuteur : ajouter `--auto` aux arguments, la dernière lign
 | skill `harness` | le déroulé de veille concurrentielle, de la vérification au nettoyage |
 | skill `tool-claude` | le déroulé de décision d'installation, de la brochure au patch mesuré |
 | skill `skill-claude` | le déroulé de jugement d'une skill tierce, de la sécurité bloquante au verdict |
+| skill `github` | la fiche d'un repo GitHub, des faits de l'API au verdict |
+| script `github/scripts/fetch-repo.py` | les faits d'un repo via `gh api`, sans clone, avec sa suite de cas |
 | script `skill-claude/scripts/secu-scan.py` | le scanner de sécurité en lecture seule, avec sa suite de cas |
 | agent `insight-lecteur` | lit une facette ou une zone, en lecture seule stricte (`Read`, `Grep`, `Glob`) |
 | agent `insight-refutateur` | détruit les fausses trouvailles, preuve à l'appui |
